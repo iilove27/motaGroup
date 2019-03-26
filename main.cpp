@@ -1,13 +1,13 @@
 #include <QApplication>
 #include <QGraphicsScene>
-#include <hero.h>
+#include <Hero.h>
 #include <QGraphicsView>
-#include <monster.h>
+#include <Monster.h>
 #include <QDebug>
 #include <QMediaPlayer>
-#include <game.h>
+#include <Game.h>
 
-Game * game;
+Game* game;
 
 int main(int argc, char *argv[])
 {
@@ -15,5 +15,6 @@ int main(int argc, char *argv[])
     game = new Game();
     game->show();
     game->displayMainMenu();
+
     return a.exec();
 }

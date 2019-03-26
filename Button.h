@@ -1,3 +1,19 @@
+/*
+ * File: Button.h
+ * --------------
+ * This file exports a class <code>Button</code>.
+ * Instance:
+ *      <code>Play</code>
+ *      <code>Load</code>
+ *      <code>Quit</code>
+ *      <code>Record X</code>
+ *      <code>Back</code>
+ *      <code>Play Again</code>
+ *      TO DO: <code>English</code>
+ *      TO DO: <code>中文</code>
+ *      TO DO: <code>BGM</code>
+ */
+
 #ifndef BUTTON_H
 #define BUTTON_H
 
@@ -9,17 +25,22 @@
 class Button: public QObject, public QGraphicsRectItem
 {   Q_OBJECT
 public:
-    Button(QString name, QGraphicsItem* parent=NULL);
+    // constructor
+    Button(QString name, int sizeX, int sizeY, QGraphicsItem* parent=nullptr);
 
-    // public events
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    // public methods
+    void mousePressEvent(QGraphicsSceneMouseEvent* event);  // click
+    void hoverEnterEvent(QGraphicsSceneHoverEvent* event);  // hover
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);  // leave
+    void setButtonText(QString textContent);
+    QString getButtonText();
 signals:
     void clicked();
 
 private:
-    QGraphicsTextItem *text;
+    // private variables
+    QGraphicsTextItem* text;
+    QString textContent;
 };
 
 #endif // BUTTON_H
