@@ -1,3 +1,10 @@
+/*
+ * File: Msgboard.h
+ * ----------------
+ * This file exports class <code>MsgBoard</code>, which would show what
+ * hero get and disappear automatically after a while.
+ */
+
 #ifndef MSGBOARD_H
 #define MSGBOARD_H
 
@@ -5,19 +12,20 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsTextItem>
 #include <QBrush>
-#include <QKeyEvent>
-#include "hero.h"
+#include <QObject>
+#include "Hero.h"
 
 class MsgBoard: public QObject, public QGraphicsRectItem
-{  Q_OBJECT
+{   Q_OBJECT
 public:
-    MsgBoard(QString name, int x, int y, int width, int height, QGraphicsItem* parent=NULL);
-    void keyPressEvent(QKeyEvent *event);
-    Hero * hero;
-    void showAndDisappear();
-private:
-    QGraphicsTextItem *text;
-};
+    // constructor
+    MsgBoard(QString text, int x, int y, int width, int height, QGraphicsItem* parent=nullptr);
+public slots:
+    void deleteAndFocusBack();
 
+private:
+    // private variable
+    QGraphicsTextItem* text;
+};
 
 #endif // MSGBOARD_H

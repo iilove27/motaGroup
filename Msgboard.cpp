@@ -1,37 +1,47 @@
+/*
+ * File: Msgboard.cpp
+ * ------------------
+ * This file implements Msgboard.h interface.
+ */
+
 #include "Msgboard.h"
-#include "game.h"
+#include "Game.h"
 #include <unistd.h>
+#include <QDebug>
+#include <QTimer>
 
-/*这个class原本是为了碰到npc的时候弹出来的时候用的，但是弹出的对话框如果被给了focus，就没法再给回去英雄去了
-但是这个类应该还是要用上的*/
+extern Game* game;
 
-
-
-
-extern Game * game;
-
-MsgBoard::MsgBoard(QString name, int x, int y, int width, int height, QGraphicsItem *parent): QGraphicsRectItem (parent)
+MsgBoard::MsgBoard(QString name, int x, int y, int width, int height, QGraphicsItem* parent): QGraphicsRectItem (parent)
 {
+    // draw the message board
     setRect(x, y, width, height);
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::darkCyan);
     setBrush(brush);
 
+    // TO DO: set focus to avoid mis-operate?
+
+    // draw the text
     text = new QGraphicsTextItem(name, this);
-    int xPos = rect().width()/2 - text->boundingRect().width()/2;
-    int yPos = rect().height()/2 - text->boundingRect().height()/2;
-    text->setPos(xPos, yPos);
+    text->setPos(150,150);
 
+    QTimer::singleShot(400, this, SLOT(deleteAndFocusBack()));  // remove after 400
 }
 
-void MsgBoard::keyPressEvent(QKeyEvent *event)
+/*
+ * Implementation notes: deleteAndFocusBack()
+ * ------------------------------------------
+ * Delete message box and focus back to hero.
+ */
+
+void MsgBoard::deleteAndFocusBack()
 {
-    if (event->key() == Qt::Key_Space)
-    {
-        game->scene->removeItem(this);
-        delete this;
-    }
+    // delete
+    game->scene->removeItem(this);
+    delete this;
+
+    // focus back
+    game->hero->setFocusToSelf();
 }
-
-

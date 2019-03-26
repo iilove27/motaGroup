@@ -1,0 +1,19 @@
+Test Info
+1 - wall
+2 - lava
+3 - star
+4 - red door
+5 - special door (open after monster 2 dies)
+6 - upstairs
+7 - downstairs
+96 - position after downstairs
+97 - position after upstairs
+101 - npc (gives 1 red key)
+102 - businessman
+201 - monster 1
+202 - monster 2
+203 - boss (communication after die)
+301 - red jewel (ATK+1)
+302 - monster search
+303 - fly floor
+
