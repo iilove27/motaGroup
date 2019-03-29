@@ -7,6 +7,7 @@
 #include "communication.h"
 #include "Game.h"
 #include "Button.h"
+#include <iostream>
 
 extern Game* game;
 
@@ -58,6 +59,7 @@ void communication::keyPressEvent(QKeyEvent* event)
             // check whether there is option choice
             if (checkOption(currentSentence)) {
                 showButton101();
+                showChoiceInit(buttonOption1->getButtonPos()[0], buttonOption1->getButtonPos()[1]);
             }
         }
         else if (communicationText.isEmpty()) {
@@ -85,6 +87,15 @@ bool communication::checkOption(QString sentence)
     return false;
 }
 
+void communication::showChoiceInit(int x, int y)
+{
+    choiceRect = new ChoiceRect(80, 40, 3, true);
+    choiceRect->setPos(x, y);
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+}
+
 /*
  * Implementation notes: showButtonX()
  * -------------------------------------
@@ -95,7 +106,7 @@ void communication::showButton101()
 {
     // draw button
     buttonOption1 = new Button("我愿意", 80, 40);
-    buttonOption1->setPos(120, 220);
+    buttonOption1->setPos(120, 220);     // 每个选项之间的间隔，安排一下
     connect(buttonOption1, SIGNAL(clicked()), this, SLOT(addText10101()));
     game->scene->addItem(buttonOption1);
 
@@ -110,8 +121,8 @@ void communication::showButton101()
     game->scene->addItem(buttonOption3);
 
     // TO DO: use KEYBOARD to control & avoid KeyPressEvents on Frame
-    buttonOption1->setFlag(QGraphicsItem::ItemIsFocusable);
-    buttonOption1->setFocus();
+//    buttonOption1->setFlag(QGraphicsItem::ItemIsFocusable);
+//    buttonOption1->setFocus();
 }
 
 /*
@@ -131,6 +142,9 @@ void communication::addText10101()
     game->scene->removeItem(buttonOption1);
     game->scene->removeItem(buttonOption2);
     game->scene->removeItem(buttonOption3);
+    game->scene->removeItem(choiceRect);
+
+
 
     text->setPlainText(communicationText.dequeue());
     setFocus();

@@ -88,3 +88,11 @@ QString Button::getButtonText()
 {
     return textContent;
 }
+
+std::vector<int> Button::getButtonPos()
+{
+    std::vector<int> pos;
+    pos.push_back(int(this->x()));
+    pos.push_back(int(this->y()));
+    return pos;
+}

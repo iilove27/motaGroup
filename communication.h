@@ -18,6 +18,7 @@
 #include <QObject>
 #include "npc.h"
 #include "Button.h"
+#include "Choicerect.h"
 
 class communication: public QObject, public QGraphicsRectItem
 {   Q_OBJECT
@@ -29,6 +30,7 @@ public:
     void keyPressEvent(QKeyEvent* event);
     bool checkOption(QString sentence);
     void showButton101();   // show button when communicate with NPC(id=101)
+    void showChoiceInit(int x, int y);
 public slots:
     void addText10101();    // add different content
     void addText10102();
@@ -41,6 +43,7 @@ private:
 
     QGraphicsTextItem* text;
     Button* buttonOption1,* buttonOption2,* buttonOption3;
+    ChoiceRect* choiceRect;
 };
 
 #endif // COMMUNICATION_H

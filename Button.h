@@ -34,6 +34,7 @@ public:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);  // leave
     void setButtonText(QString textContent);
     QString getButtonText();
+    std::vector<int> getButtonPos();
 signals:
     void clicked();
 
