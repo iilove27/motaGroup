@@ -18,6 +18,7 @@
 #include "npc.h"
 #include "Item.h"
 #include "backpack.h"
+#include "Choicerect.h"
 
 class Game: public QGraphicsView
 {   Q_OBJECT
@@ -30,6 +31,7 @@ public:
     Hero* hero;
     Map* maps;
     backpack* backpackSys;
+    std::map<Button*, int> buttonMap;
 
     QGraphicsTextItem* hpText;
     QGraphicsTextItem* atkText;
@@ -60,6 +62,12 @@ public slots:
     void showLoad();
     void showSave();
     void showLoadOnMainMenu();
+    void buttonChosen();
+
+private:
+    ChoiceRect* choiceRect;
+
+
 };
 
 #endif // GAME_H
