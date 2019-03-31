@@ -5,6 +5,9 @@
  */
 
 #include "business.h"
+#include <iostream>
+
+using namespace std;
 
 business::business(Hero * hero, Game * game)
 {
@@ -41,6 +44,7 @@ business::business(Hero * hero, Game * game)
     addHPButton->setPos(hxPos, hyPos);
     connect(addHPButton, SIGNAL(clicked()), this, SLOT(addHp()));
     game->scene->addItem(addHPButton);
+    buttonMap.insert(std::pair<Button*, int> (addHPButton, 0));
 
     // Add ATK button
     addATKButton = new Button(QString("ATK +5"), 200, 40);
@@ -49,6 +53,8 @@ business::business(Hero * hero, Game * game)
     addATKButton->setPos(axPos, ayPos);
     connect(addATKButton, SIGNAL(clicked()), this, SLOT(addATK()));
     game->scene->addItem(addATKButton);
+    buttonMap.insert(std::pair<Button*, int> (addATKButton, 1));
+
 
     // Add DEF button
     addDEFButton = new Button(QString("DEF +5"), 200, 40);
@@ -57,6 +63,8 @@ business::business(Hero * hero, Game * game)
     addDEFButton->setPos(dxPos, dyPos);
     connect(addDEFButton, SIGNAL(clicked()), this, SLOT(addDEF()));
     game->scene->addItem(addDEFButton);
+    buttonMap.insert(std::pair<Button*, int> (addDEFButton, 2));
+
 
     // Add EXP button
     addEXPButton = new Button(QString("EXP +100"), 200, 40);
@@ -65,6 +73,8 @@ business::business(Hero * hero, Game * game)
     addEXPButton->setPos(exPos, eyPos);
     connect(addEXPButton, SIGNAL(clicked()), this, SLOT(addEXP()));
     game->scene->addItem(addEXPButton);
+    buttonMap.insert(std::pair<Button*, int> (addEXPButton, 3));
+
 
     // Add BACK button
     backButton = new Button(QString("BACK"), 200, 40);
@@ -73,6 +83,15 @@ business::business(Hero * hero, Game * game)
     backButton->setPos(bxPos, byPos);
     connect(backButton, SIGNAL(clicked()), this, SLOT(back()));
     game->scene->addItem(backButton);
+    buttonMap.insert(std::pair<Button*, int> (backButton, 4));
+
+    choiceRect = new ChoiceRect(200, 40, 5, false, nullptr, 0, 50);
+    choiceRect->setPos(hxPos, hyPos);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
 }
 
 /*
@@ -138,7 +157,21 @@ void business::back()
     game->scene->removeItem(addDEFButton);
     game->scene->removeItem(addEXPButton);
     game->scene->removeItem(backButton);
+    game->scene->removeItem(choiceRect);
     // delete this
 
     game->hero->setFocusToSelf();
+}
+
+void business::buttonChosen()
+{
+    cout << "Enter buttonChosen function" << endl;
+    int currentChoice = choiceRect->chosen;
+    cout << currentChoice;
+    std::map<Button*, int>::iterator it;
+    for (it = buttonMap.begin(); it != buttonMap.end(); it++) {
+        if (it->second == currentChoice) {
+            it->first->chosen();
+        }
+    }
 }

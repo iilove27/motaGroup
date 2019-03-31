@@ -24,6 +24,7 @@
 #include "npc.h"
 #include "subtitle.h"
 #include "saveload.h"
+
 using namespace std;
 
 Game::Game(QWidget* parent)
@@ -126,7 +127,7 @@ void Game::drawPanel(int x, int y, int width, int height, QColor color, double o
  */
 
 void Game::displayMainMenu()
-{
+{    
     // show game title
     QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Magic Tower"));
     QFont titleFont("comic sans", 50);
@@ -143,6 +144,7 @@ void Game::displayMainMenu()
     playButton->setPos(bxPos, byPos);
     connect(playButton, SIGNAL(clicked()), this, SLOT(subtitleMove()));
     scene->addItem(playButton);
+    buttonMap.insert(std::pair<Button*, int> (playButton, 0));
 
     // Load button
     Button* loadButton = new Button(QString("Load"), 200, 40);
@@ -151,6 +153,7 @@ void Game::displayMainMenu()
     loadButton->setPos(lxPos, lyPos);
     connect(loadButton, SIGNAL(clicked()), this, SLOT(showLoadOnMainMenu()));
     scene->addItem(loadButton);
+    buttonMap.insert(std::pair<Button*, int> (loadButton, 1));
 
     // Quit button
     Button* quitButton = new Button(QString("Quit"), 200, 40);
@@ -159,6 +162,15 @@ void Game::displayMainMenu()
     quitButton->setPos(qxPos, qyPos);
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
     scene->addItem(quitButton);
+    buttonMap.insert(std::pair<Button*, int> (quitButton, 2));
+
+    choiceRect = new ChoiceRect(200, 40, 3, false, nullptr, 0, 50);
+    choiceRect->setPos(bxPos, byPos);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
 }
 
 /*
@@ -340,5 +352,18 @@ void Game::updateInfo()
         monsterSearchText = new QGraphicsTextItem(QString("Search :\t") + QString("Press I"));
         monsterSearchText->setPos(540, 200);
         scene->addItem(monsterSearchText);
+    }
+}
+
+void Game::buttonChosen()
+{
+    cout << "Enter buttonChosen function" << endl;
+    int currentChoice = choiceRect->chosen;
+    cout << currentChoice;
+    std::map<Button*, int>::iterator it;
+    for (it = buttonMap.begin(); it != buttonMap.end(); it++) {
+        if (it->second == currentChoice) {
+            it->first->chosen();
+        }
     }
 }

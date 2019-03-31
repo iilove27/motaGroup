@@ -28,12 +28,16 @@ class business: public QObject
 public:
     // constructor
     business(Hero* hero, Game* game);
+    std::map<Button*, int> buttonMap;
+
 public slots:
     void addHp();
     void addATK();
     void addDEF();
     void addEXP();
     void back();
+    void buttonChosen();
+
 
 private:
     // private variables
@@ -42,6 +46,8 @@ private:
     Button* addHPButton,* addATKButton,* addDEFButton,* addEXPButton,* backButton;
     QGraphicsRectItem* businessFrame;
     QGraphicsTextItem* businessText;
+    ChoiceRect* choiceRect;
+
 };
 
 #endif // BUSINESS_H

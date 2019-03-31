@@ -58,7 +58,7 @@ void communication::keyPressEvent(QKeyEvent* event)
 
             // check whether there is option choice
             if (checkOption(currentSentence)) {
-                showButton101();
+                buttonMap = showButton101();
                 showChoiceInit(buttonOption1->getButtonPos()[0], buttonOption1->getButtonPos()[1]);
             }
         }
@@ -89,8 +89,9 @@ bool communication::checkOption(QString sentence)
 
 void communication::showChoiceInit(int x, int y)
 {
-    choiceRect = new ChoiceRect(80, 40, 3, true);
+    choiceRect = new ChoiceRect(80, 40, 3, true, nullptr, 160);
     choiceRect->setPos(x, y);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
     game->scene->addItem(choiceRect);
     choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
     choiceRect->setFocus();
@@ -102,27 +103,29 @@ void communication::showChoiceInit(int x, int y)
  * Different NPC X would have different Option. Show button.
  */
 
-void communication::showButton101()
+std::map<Button*, int> communication::showButton101()
 {
+    std::map<Button*, int> buttonMap;
     // draw button
     buttonOption1 = new Button("我愿意", 80, 40);
     buttonOption1->setPos(120, 220);     // 每个选项之间的间隔，安排一下
     connect(buttonOption1, SIGNAL(clicked()), this, SLOT(addText10101()));
+    buttonMap.insert(std::pair<Button*, int> (buttonOption1, 0));
     game->scene->addItem(buttonOption1);
 
     buttonOption2 = new Button("我不愿意", 80, 40);
     buttonOption2->setPos(280, 220);
     connect(buttonOption2, SIGNAL(clicked()), this, SLOT(addText10102()));
+    buttonMap.insert(std::pair<Button*, int> (buttonOption2, 1));
     game->scene->addItem(buttonOption2);
 
     buttonOption3 = new Button("我就是路过", 80, 40);
     buttonOption3->setPos(440, 220);
     connect(buttonOption3, SIGNAL(clicked()), this, SLOT(addText10103()));
+    buttonMap.insert(std::pair<Button*, int> (buttonOption3, 2));
     game->scene->addItem(buttonOption3);
 
-    // TO DO: use KEYBOARD to control & avoid KeyPressEvents on Frame
-//    buttonOption1->setFlag(QGraphicsItem::ItemIsFocusable);
-//    buttonOption1->setFocus();
+    return buttonMap;
 }
 
 /*
@@ -144,8 +147,6 @@ void communication::addText10101()
     game->scene->removeItem(buttonOption3);
     game->scene->removeItem(choiceRect);
 
-
-
     text->setPlainText(communicationText.dequeue());
     setFocus();
 }
@@ -162,6 +163,7 @@ void communication::addText10102()
     game->scene->removeItem(buttonOption1);
     game->scene->removeItem(buttonOption2);
     game->scene->removeItem(buttonOption3);
+    game->scene->removeItem(choiceRect);
 
     text->setPlainText(communicationText.dequeue());
     setFocus();
@@ -170,13 +172,26 @@ void communication::addText10102()
 void communication::addText10103()
 {
     // add communication content
-    game->scene->removeItem(this);
-    game->scene->removeItem(text);
+    cout << "Enter addText10103 function" << endl;
+
+    communicationText.enqueue(QString("我莫得老婆，你说你🐴呢?"));
+
     game->scene->removeItem(buttonOption1);
     game->scene->removeItem(buttonOption2);
     game->scene->removeItem(buttonOption3);
-    delete this;
+    game->scene->removeItem(choiceRect);
 
-    // in this case, directly focus back to Hero
-    game->hero->setFocusToSelf();
+    text->setPlainText(communicationText.dequeue());
+    setFocus();
+}
+
+void communication::buttonChosen()
+{
+    int currentChoice = choiceRect->getCurrentChoice();
+    std::map<Button*, int>::iterator it;
+    for (it = buttonMap.begin(); it != buttonMap.end(); it++) {
+        if (it->second == currentChoice) {
+            it->first->chosen();
+        }
+    }
 }
