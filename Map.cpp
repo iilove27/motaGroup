@@ -17,7 +17,7 @@ extern Game* game;
 
 Map::Map(string filename)
 {
-    // read map data    "/Users/haroldxu/Desktop/mota/map.dat"
+    // read map data    "D:/senior2/csc3002/mota/motaGroup/map.dat"
     // TO DO: use QFile/QTextStream or other ways to read from relative path
     ifstream file(filename);
     if (!file.is_open()) {

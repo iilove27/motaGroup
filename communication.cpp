@@ -42,7 +42,8 @@ communication::communication(NPC* npc, QGraphicsItem* parent): QGraphicsRectItem
 
 /*
  * Implementation notes: keyPressEvent(QKeyEvent* event)
- * -----------------------------------------------------
+ * ---------------------------------------------
+ * --------
  * Use Key_Space to continue conversation. Judge whether there is option choice.
  */
 

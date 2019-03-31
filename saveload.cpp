@@ -273,20 +273,20 @@ void SaveLoad::save(int recordNum)
     //  TO DO: use relative path
     switch (recordNum)
     {
-    case 1: fileInfoName = "/Users/haroldxu/Desktop/mota/InfoRecord1.dat";
-            fileMapName = "/Users/haroldxu/Desktop/mota/MapRecord1.dat";
+    case 1: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord1.dat";
+            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord1.dat";
             break;
-    case 2: fileInfoName = "/Users/haroldxu/Desktop/mota/InfoRecord2.dat";
-            fileMapName = "/Users/haroldxu/Desktop/mota/MapRecord2.dat";
+    case 2: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord2.dat";
+            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord2.dat";
             break;
-    case 3: fileInfoName = "/Users/haroldxu/Desktop/mota/InfoRecord3.dat";
-            fileMapName = "/Users/haroldxu/Desktop/mota/MapRecord3.dat";
+    case 3: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord3.dat";
+            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord3.dat";
             break;
-    case 4: fileInfoName = "/Users/haroldxu/Desktop/mota/InfoRecord4.dat";
-            fileMapName = "/Users/haroldxu/Desktop/mota/MapRecord4.dat";
+    case 4: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord4.dat";
+            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord4.dat";
             break;
-    case 5: fileInfoName = "/Users/haroldxu/Desktop/mota/InfoRecord5.dat";
-            fileMapName = "/Users/haroldxu/Desktop/mota/MapRecord5.dat";
+    case 5: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord5.dat";
+            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord5.dat";
             break;
     }
 
@@ -321,20 +321,20 @@ void SaveLoad::load(int recordNum)
     //  TO DO: use relative path
     switch (recordNum)
     {
-    case 1: fileInfoName = "/Users/haroldxu/Desktop/mota/InfoRecord1.dat";
-            fileMapName = "/Users/haroldxu/Desktop/mota/MapRecord1.dat";
+    case 1: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord1.dat";
+            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord1.dat";
             break;
-    case 2: fileInfoName = "/Users/haroldxu/Desktop/mota/InfoRecord2.dat";
-            fileMapName = "/Users/haroldxu/Desktop/mota/MapRecord2.dat";
+    case 2: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord2.dat";
+            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord2.dat";
             break;
-    case 3: fileInfoName = "/Users/haroldxu/Desktop/mota/InfoRecord3.dat";
-            fileMapName = "/Users/haroldxu/Desktop/mota/MapRecord3.dat";
+    case 3: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord3.dat";
+            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord3.dat";
             break;
-    case 4: fileInfoName = "/Users/haroldxu/Desktop/mota/InfoRecord4.dat";
-            fileMapName = "/Users/haroldxu/Desktop/mota/MapRecord4.dat";
+    case 4: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord4.dat";
+            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord4.dat";
             break;
-    case 5: fileInfoName = "/Users/haroldxu/Desktop/mota/InfoRecord5.dat";
-            fileMapName = "/Users/haroldxu/Desktop/mota/MapRecord5.dat";
+    case 5: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord5.dat";
+            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord5.dat";
             break;
     }
 
