@@ -34,6 +34,10 @@ public:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);  // leave
     void setButtonText(QString textContent);
     QString getButtonText();
+    std::vector<int> getButtonPos();
+    void chosen();
+    int getButtonID();
+
 signals:
     void clicked();
 
@@ -41,6 +45,7 @@ private:
     // private variables
     QGraphicsTextItem* text;
     QString textContent;
+    int buttonID;
 };
 
 #endif // BUTTON_H
