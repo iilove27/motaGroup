@@ -35,7 +35,7 @@ Hero::Hero(QGraphicsItem *parent): QGraphicsPixmapItem(parent)
     def = 10;
     money = 0;
     experience = 0;
-    redkey = 0;
+    redkey = 1;
     bluekey = 0;
     yellowkey = 0;
     floor = 0;
@@ -373,11 +373,11 @@ void Hero::keyPressEvent(QKeyEvent *event)
                 battle * battleMonster = new battle(game->maps->mons[getPosY()*11-11+getPosX()], this);
 
                 // update information
-                game->updateInfo();
+              //  game->updateInfo();
 
                 // update Map
-                game->maps->updateMap(floor, getPosX(), getPosY()-1, 0);
-                delete game->maps->mons[getPosY()*11-11+getPosX()];
+                //game->maps->updateMap(floor, getPosX(), getPosY()-1, 0);
+                //delete game->maps->mons[getPosY()*11-11+getPosX()];
             }
             checkEnd(aroundId); // Ending test;
         }
@@ -708,8 +708,10 @@ bool Hero::checkWin(int aroundID)
     int heroHarm = max(0, heroAtk-monsterDef);
 
     // judge
+
     int numOfRounds = monsterHp / heroHarm;
-    if (numOfRounds*monsterHarm >= heroHp) return false;
+    //if (numOfRounds*monsterHarm >= heroHp) return false;
+    if (monsterAtk>= heroDef &monsterDef>=heroAtk) return false;
     return true;
 }
 
