@@ -43,7 +43,8 @@ SOURCES += \
     subtitle.cpp \
     saveload.cpp \
     backpack.cpp \
-    Mapfly.cpp
+    Mapfly.cpp \
+    monsterinfo.cpp
 
 HEADERS += \
     Button.h \
@@ -62,7 +63,8 @@ HEADERS += \
     subtitle.h \
     saveload.h \
     backpack.h \
-    Mapfly.h
+    Mapfly.h \
+    monsterinfo.h
 
 FORMS += \
         mainwindow.ui
