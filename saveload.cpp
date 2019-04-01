@@ -287,6 +287,7 @@ void SaveLoad::save(int recordNum)
             break;
     case 5: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord5.dat";
             fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord5.dat";
+
             break;
     }
 
@@ -335,6 +336,7 @@ void SaveLoad::load(int recordNum)
             break;
     case 5: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord5.dat";
             fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord5.dat";
+
             break;
     }
 

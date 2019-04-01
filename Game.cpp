@@ -70,7 +70,10 @@ void Game::start()
     backpackSys = new backpack();
 
     // draw the map
+
     maps = new Map("/Users/clydezhang/motaGroup/map.dat"); // TO DO: use relative path
+
+
     maps->show(0);                                          // initial render & show floor 0
 
     // draw the hero

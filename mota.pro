@@ -44,7 +44,8 @@ SOURCES += \
     saveload.cpp \
     backpack.cpp \
     Mapfly.cpp \
-    Choicerect.cpp
+    Choicerect.cpp \
+    monsterinfo.cpp
 
 HEADERS += \
     Button.h \
@@ -64,7 +65,8 @@ HEADERS += \
     saveload.h \
     backpack.h \
     Mapfly.h \
-    Choicerect.h
+    Choicerect.h \
+    monsterinfo.h
 
 FORMS += \
         mainwindow.ui
