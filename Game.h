@@ -18,6 +18,9 @@
 #include "npc.h"
 #include "Item.h"
 #include "backpack.h"
+#include "player.h"
+#include "score.h"
+#include "enemy.h"
 
 class Game: public QGraphicsView
 {   Q_OBJECT
@@ -30,6 +33,10 @@ public:
     Hero* hero;
     Map* maps;
     backpack* backpackSys;
+    Player* player;
+    Score* score;
+    Enemy* enemy;
+    Button* miniGameEndButton;
 
     QGraphicsTextItem* hpText;
     QGraphicsTextItem* atkText;
@@ -44,6 +51,11 @@ public:
     QGraphicsTextItem* redKeyText;
     QGraphicsTextItem* floorFlyText;
     QGraphicsTextItem* monsterSearchText;
+    QGraphicsTextItem* miniGameEndText;
+
+    //QGraphicsTextItem* scoreText;
+
+    QGraphicsRectItem* miniGameEndFrame;
 
     // public methods
     void displayMainMenu();
@@ -60,6 +72,9 @@ public slots:
     void showLoad();
     void showSave();
     void showLoadOnMainMenu();
+    void startMiniGame();
+    void endMiniGame();
+    void showMiniGameEnd(QString frameText,QString buttonText);
 };
 
 #endif // GAME_H

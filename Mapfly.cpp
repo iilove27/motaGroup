@@ -7,7 +7,6 @@ extern Game* game;
 
 MapFly::MapFly()
 {
-    qDebug() << 1;
     for (int floor_i=0; floor_i<4; floor_i++) {
         if (game->hero->checkFloorVisited(floor_i)) {
             floorButton.enqueue(new Button(QString::number(floor_i), 200, 40));
@@ -62,13 +61,11 @@ void MapFly::back()
 
 void MapFly::fly(int floorID)
 {
-    qDebug() << 1;
     // change floor
     game->hero->setFloor(floorID);
     game->hero->safeClearFloor();
     game->renderFloor(floorID);
 
-    qDebug() << 2;
     // change position
     int xPos,yPos;
     game->maps->findPosition(&xPos, &yPos, 97, floorID);
@@ -76,18 +73,11 @@ void MapFly::fly(int floorID)
     game->hero->show();
     game->updateInfo();
 
-    qDebug() << 3;
-    // TO DO: bug
-    qDebug() << "what happened???";
     game->scene->removeItem(floorFrame);
     game->scene->removeItem(backButton);
     for (int floor_i = 0; floor_i < floorButton.size(); floor_i++) {
         game->scene->removeItem(floorButton[floor_i]);
     }
-    delete floorFrame;
-    delete backButton;
-
-    qDebug() << 4;
 
     game->hero->setFocusToSelf();
     // delete this;

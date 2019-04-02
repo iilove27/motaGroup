@@ -43,7 +43,13 @@ SOURCES += \
     subtitle.cpp \
     saveload.cpp \
     backpack.cpp \
-    Mapfly.cpp
+    Mapfly.cpp \
+    monsterinfo.cpp \
+    enemy.cpp \
+    bullet.cpp \
+    enemybullet.cpp \
+    player.cpp \
+    npcflygame.cpp
 
 HEADERS += \
     Button.h \
@@ -62,7 +68,13 @@ HEADERS += \
     subtitle.h \
     saveload.h \
     backpack.h \
-    Mapfly.h
+    Mapfly.h \
+    monsterinfo.h \
+    enemy.h \
+    bullet.h \
+    enemybullet.h \
+    player.h \
+    npcflygame.h
 
 FORMS += \
         mainwindow.ui

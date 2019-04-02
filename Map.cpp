@@ -17,7 +17,7 @@ extern Game* game;
 
 Map::Map(string filename)
 {
-    // read map data    "/Users/haroldxu/Desktop/mota/map.dat"
+    // read map data    "/Users/chenxuanyu212/CPP code/motaGroup4.1/map.dat"
     // TO DO: use QFile/QTextStream or other ways to read from relative path
     ifstream file(filename);
     if (!file.is_open()) {
@@ -79,7 +79,7 @@ void Map::show(int f)
                 wall[mapIndex]->show();
                 break;
             case 4: case 5: case 6: case 7: case 301: case 303: case 304: addItemToScene(i, j, mapId, items); break;
-            case 101: case 102: addNPCToScene(i, j, mapId); break;
+            case 101: case 102:case 103: addNPCToScene(i, j, mapId); break;
             case 201: case 202: case 203: addMonsterToScene(i, j, mapId, mons); break;
             }
         }
@@ -94,7 +94,7 @@ void Map::show(int f)
             {
             case 1: case 2: case 3: game->scene->addItem(wall[mapIndex]); break;
             case 4: case 5: case 6: case 7: case 301: case 303: case 304: game->scene->addItem(items[mapIndex]); break;
-            case 101: case 102: game->scene->addItem(npcs[mapId % 100]); break;
+            case 101: case 102:case 103: game->scene->addItem(npcs[mapId % 100]); break;
             case 201: case 202: case 203: game->scene->addItem(mons[mapIndex]); break;
             }
         }
