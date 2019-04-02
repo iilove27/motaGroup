@@ -57,6 +57,7 @@ Hero::Hero(QGraphicsItem *parent): QGraphicsPixmapItem(parent)
 
 void Hero::keyPressEvent(QKeyEvent *event)
 {
+     getAroundId();  // get id around after one step
     // Key_S
     if (event->key() == Qt::Key_S) {
         game->showSave();
@@ -137,11 +138,11 @@ void Hero::keyPressEvent(QKeyEvent *event)
                 battle * battleMonster = new battle(game->maps->mons[getPosY()*11+getPosX()-1], this);
 
                 // update information
-                game->updateInfo();
+               // game->updateInfo();
 
                 // update Map
-                game->maps->updateMap(floor, getPosX()-1, getPosY(), 0);
-                delete game->maps->mons[getPosY()*11+getPosX()-1];
+                //game->maps->updateMap(floor, getPosX()-1, getPosY(), 0);
+                //delete game->maps->mons[getPosY()*11+getPosX()-1];
             }
             checkEnd(aroundId); // Ending test;
         }
@@ -320,6 +321,7 @@ void Hero::keyPressEvent(QKeyEvent *event)
     // Key_Up
     else if (event->key() == Qt::Key_Up) {
         int aroundId = aroundInfo[0];
+        qDebug() << aroundId;
         if (checkWalkable(aroundId)){
             setPixmap(QPixmap::fromImage(hero_up2_img.scaled(40, 40)));
             QTimer::singleShot(200, this, SLOT(upChangePicture()));
@@ -487,11 +489,11 @@ void Hero::keyPressEvent(QKeyEvent *event)
                 battle * battleMonster = new battle(game->maps->mons[getPosY()*11-11+getPosX()], this);
 
                 // update information
-                game->updateInfo();
+              //  game->updateInfo();
 
                 // update Map
-                game->maps->updateMap(floor, getPosX(), getPosY()-1, 0);
-                delete game->maps->mons[getPosY()*11-11+getPosX()];
+                //game->maps->updateMap(floor, getPosX(), getPosY()-1, 0);
+                //delete game->maps->mons[getPosY()*11-11+getPosX()];
             }
             checkEnd(aroundId); // Ending test;
         }
@@ -546,7 +548,7 @@ void Hero::keyPressEvent(QKeyEvent *event)
         }
     }
 
-    getAroundId();  // get id around after one step
+
 }
 
 /*

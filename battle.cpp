@@ -38,8 +38,9 @@ battle::battle(Monster * monster, Hero * hero)
     // get harm value (>=0)
     monsterHarm = max(0, monsterAtk-heroDef);
     heroHarm = max(0, heroAtk-monsterDef);
-
+    qDebug()<< "xuhaoniubi";
     battleFrameShow(monster,hero); // show battle frame
+
 }
 
 /*
@@ -240,6 +241,7 @@ void battle::update()
 
     // update Map
      game->maps->updateMap(game->hero->getFloor(), game->hero->getPosX(), game->hero->getPosY()-1, 0);
+     qDebug()<< game->maps->map2D[game->hero->getFloor()][game->hero->getPosY()-1][game->hero->getPosX()];
     delete game->maps->mons[game->hero->getPosY()*11-11+game->hero->getPosX()];
 
 }
@@ -289,10 +291,12 @@ void battle::battleOnce()
     updateText();
 
     if (StatusOfStun==0){
-         checkDodge();
+        if  (monsterHp > 0){
+            checkDodge();
          monster_img_battle->setPos(130,80);
          QTimer::singleShot(300, this, SLOT(MonsterBacktoPlace()));
          updateText();
+        }
     }
     else {
         StatusOfStun--;
@@ -489,20 +493,23 @@ void battle::UseSkill3()
 void battle::checkCritical()
 {
     random=rand() / double(RAND_MAX);
-    if (random<0.7) monsterHp -= heroHarm;
+    if (random<0.1) monsterHp -= heroHarm;
     else {
         monsterHp -= 2*heroHarm;
+        if (monsterHp>0){
         critical->setPos(450,240);
         game->scene->addItem(critical);
         QTimer::singleShot(400, this, SLOT(CriticalDisapper()));
+        }
     }
 }
 
 void battle::checkDodge()
 {
     random=rand() / double(RAND_MAX);
-    if (random<0.7) heroHp -= monsterHarm;
+    if (random<0.1) heroHp -= monsterHarm;
     else{
+
         dodge->setPos(460,300);
         game->scene->addItem(dodge);
         QTimer::singleShot(400, this, SLOT(DodgeDisapper()));
