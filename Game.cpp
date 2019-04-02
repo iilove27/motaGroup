@@ -24,11 +24,8 @@
 #include "npc.h"
 #include "subtitle.h"
 #include "saveload.h"
-<<<<<<< HEAD
-=======
 #include "Msgboard.h"
 #include <QString>
->>>>>>> chenxuanyuniubi
 
 using namespace std;
 
@@ -75,14 +72,8 @@ void Game::start()
     backpackSys = new backpack();
 
     // draw the map
-<<<<<<< HEAD
-
-    maps = new Map("/Users/clydezhang/motaGroup/map.dat"); // TO DO: use relative path
-
-
-=======
     maps = new Map("/Users/chenxuanyu212/CPPcode/motaGroup4.1/map.dat"); // TO DO: use relative path
->>>>>>> chenxuanyuniubi
+
     maps->show(0);                                          // initial render & show floor 0
 
     // draw the hero

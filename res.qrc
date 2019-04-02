@@ -1,0 +1,52 @@
+<RCC>
+    <qresource prefix="/sounds">
+        <file>bgm.mp3</file>
+    </qresource>
+    <qresource prefix="/map">
+        <file>map.dat</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>4_1.png</file>
+        <file>4_2.png</file>
+        <file>4_3.png</file>
+        <file>4_4.png</file>
+        <file>5_1.png</file>
+        <file>5_2.png</file>
+        <file>5_3.png</file>
+        <file>5_4.png</file>
+        <file>6.png</file>
+        <file>7.png</file>
+        <file>101.png</file>
+        <file>102.png</file>
+        <file>201.png</file>
+        <file>202.png</file>
+        <file>203.png</file>
+        <file>301.png</file>
+        <file>303.png</file>
+        <file>304.png</file>
+        <file>bg_copy.png</file>
+        <file>bg.png</file>
+        <file>ground.png</file>
+        <file>hero_front.png</file>
+        <file>hero.png</file>
+        <file>wall.png</file>
+        <file>lava1.png</file>
+        <file>lava2.png</file>
+        <file>star1.png</file>
+        <file>star2.png</file>
+        <file>down1.png</file>
+        <file>down2.png</file>
+        <file>left1.png</file>
+        <file>left2.png</file>
+        <file>right1.png</file>
+        <file>right2.png</file>
+        <file>up1.png</file>
+        <file>up2.png</file>
+        <file>S1.png</file>
+        <file>S2.png</file>
+        <file>S3.png</file>
+    </qresource>
+    <qresource prefix="/text">
+        <file>101.txt</file>
+    </qresource>
+</RCC>

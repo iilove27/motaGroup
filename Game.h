@@ -75,14 +75,15 @@ public slots:
     void showSave();
     void showLoadOnMainMenu();
     void buttonChosen();
+    void startMiniGame();
+    void endMiniGame();
+    void showMiniGameEnd(QString frameText,QString buttonText);
 
 private:
     ChoiceRect* choiceRect;
 
 
-    void startMiniGame();
-    void endMiniGame();
-    void showMiniGameEnd(QString frameText,QString buttonText);
+
 };
 
 #endif // GAME_H
