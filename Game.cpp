@@ -24,6 +24,8 @@
 #include "npc.h"
 #include "subtitle.h"
 #include "saveload.h"
+#include "Msgboard.h"
+#include <QString>
 
 using namespace std;
 
@@ -71,7 +73,8 @@ void Game::start()
     backpackSys = new backpack();
 
     // draw the map
-    maps = new Map("/Users/clydezhang/motaGroup/map.dat"); // TO DO: use relative path
+    maps = new Map("/Users/chenxuanyu212/CPPcode/motaGroup4.1/map.dat"); // TO DO: use relative path
+
     maps->show(0);                                          // initial render & show floor 0
 
     // draw the hero
@@ -254,6 +257,7 @@ void Game::drawGUI()
  * <code>backButton</code>.
  */
 
+
 void Game::showLoad()
 {
     SaveLoad *loadFrame = new SaveLoad();
@@ -272,6 +276,161 @@ void Game::showLoadOnMainMenu()
     SaveLoad *loadFrame = new SaveLoad();
     loadFrame->showLoadRecordOnMainMenu();
 }
+
+
+void Game::startMiniGame()
+{
+    scene->clear();
+    // create the scene
+    scene = new QGraphicsScene();
+    scene->setSceneRect(0,0,440+100*2,440);
+    setBackgroundBrush(QBrush(QImage(":/images/bg.png").scaled(440+100*2, 440)));
+    setScene(scene);
+    setFixedSize(640,440);
+
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    // create the player
+    player = new Player();
+    player->setPos(300,300); // TODO generalize to always be in the middle bottom of screen
+
+    player->setScale(0.7);
+    // make the player focusable and set it to be the current focus
+    player->setFlag(QGraphicsItem::ItemIsFocusable);
+    player->setFocus();
+    // add the player to the scene
+    scene->addItem(player);
+    qDebug()<<"set the hero"<<endl;
+
+    // create the first enemy
+    Enemy * enemy = new Enemy();
+    enemy->setPos(enemy->x()+200,200);
+    scene->addItem(enemy);
+
+    // spawn enemies
+
+    QTimer * timer = new QTimer();
+    QObject::connect(timer,SIGNAL(timeout()),player,SLOT(spawn()));
+    timer->start(5000);
+
+
+
+    // play background music
+    //QMediaPlayer * music = new QMediaPlayer();
+    //music->setMedia(QUrl("qrc:/sounds/bgsound.mp3"));
+    //music->play();
+
+
+    show();
+}
+
+void Game::showMiniGameEnd(QString frameText,QString buttonText)
+{
+    scene->clear();
+
+    // create frame
+    miniGameEndFrame = new QGraphicsRectItem();
+    miniGameEndFrame->setRect(100, 0, 440, 440);
+    QBrush brush;
+    brush.setStyle(Qt::SolidPattern);
+    brush.setColor(Qt::darkCyan);
+    miniGameEndFrame->setBrush(brush);
+    scene->addItem(miniGameEndFrame);
+    miniGameEndFrame->setFlag(QGraphicsItem::ItemIsFocusable); // avoid events' influence
+    miniGameEndFrame->setFocus();
+
+    // draw the text
+    miniGameEndText = new QGraphicsTextItem(frameText);
+    QFont titleFont("comic sans", 10);
+    miniGameEndText->setFont(titleFont);
+    double txPos = game->width()/2 - miniGameEndText->boundingRect().width()/2;
+    double tyPos = 100;
+    miniGameEndText->setPos(txPos, tyPos);
+    game->scene->addItem(miniGameEndText);
+
+    // Add HP button
+    miniGameEndButton = new Button(buttonText, 200, 40);
+    double hxPos = game->width()/2 - miniGameEndText->boundingRect().width()/2;
+    double hyPos = 150;
+    miniGameEndButton->setPos(hxPos, hyPos);
+    connect(miniGameEndButton, SIGNAL(clicked()), this, SLOT(endMiniGame()));
+    game->scene->addItem(miniGameEndButton);
+}
+
+void Game::endMiniGame()
+{
+
+
+    scene->clear();
+    fstream loadFile;
+    // order: hp,atk,def,lv,money,exp,floor,posX,poxY,redkey,yellowkey,bluekey
+    loadFile.open("/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoBeforeMiniGame.dat", ios::in);
+
+    int new_heroHp;
+    int new_heroAtk;
+    int new_heroDef;
+    int new_heroLv;
+    int new_heroMoney;
+    int new_heroExp;
+    int new_heroFloor;
+    int new_heroPosX;
+    int new_heroPosY;
+    int new_redKey;
+    int new_yellowKey;
+    int new_blueKey;
+
+    loadFile>>new_heroHp;
+    loadFile>>new_heroAtk;
+    loadFile>>new_heroDef;
+    loadFile>>new_heroLv;
+    loadFile>>new_heroMoney;
+    loadFile>>new_heroExp;
+    loadFile>>new_heroFloor;
+    loadFile>>new_heroPosX;
+    loadFile>>new_heroPosY;
+    loadFile>>new_redKey;
+    loadFile>>new_yellowKey;
+    loadFile>>new_blueKey;
+    loadFile.close();
+
+    // clear
+    scene->clear();
+
+    // draw the map
+    maps = new Map("/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapBeforeMiniGame.dat");
+    maps->show(new_heroFloor);  // Initial Render
+
+    // draw the hero
+    hero = new Hero();
+    hero->setPos(100+40*new_heroPosX, 40*new_heroPosY); // Initial Position
+    hero->show();
+    scene->addItem(hero);
+    hero->setFlag(QGraphicsItem::ItemIsFocusable);
+
+    hero->setHp(new_heroHp);
+    hero->setAtk(new_heroAtk);
+    hero->setDef(new_heroDef);
+    hero->setLv(new_heroLv);
+    hero->setMoney(new_heroMoney);
+    hero->setExperience(new_heroExp);
+    hero->setFloor(new_heroFloor);
+    hero->setRedKey(new_redKey);
+    hero->setBlueKey(new_blueKey);
+    hero->setYellowKey(new_yellowKey);
+
+    // draw the information
+    drawGUI();
+
+    QMediaPlayer * music = new QMediaPlayer();
+    music->setMedia(QUrl("qrc:/sounds/bgm.mp3"));
+    music->play();
+
+    hero->setFocus();
+    show();
+}
+
+
 
 /*
  * Implementation notes: gameOver(), displayGameoverWindow()
