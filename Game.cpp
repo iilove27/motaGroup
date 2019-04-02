@@ -46,6 +46,7 @@ Game::Game(QWidget* parent)
 void Game::subtitleMove()
 {
     // clear
+    delete choiceRect;
     scene->clear();
 
     // subtitle Move
@@ -267,6 +268,7 @@ void Game::showSave()
 
 void Game::showLoadOnMainMenu()
 {
+    delete choiceRect;
     SaveLoad *loadFrame = new SaveLoad();
     loadFrame->showLoadRecordOnMainMenu();
 }
@@ -286,6 +288,8 @@ void Game::gameOver()
 
 void Game::displayGameoverWindow(QString textToDisplay)
 {
+    buttonMap.clear();
+
     // disable all items
     for (int i = 0, n = scene->items().size(); i < n; i++) scene->items()[i]->setEnabled(false);
 
@@ -302,12 +306,23 @@ void Game::displayGameoverWindow(QString textToDisplay)
     playAgain->setPos(110, 300);
     scene->addItem(playAgain);
     connect(playAgain, SIGNAL(clicked()), this, SLOT(restartGame()));
+    buttonMap.insert(std::pair<Button*, int> (playAgain, 0));
 
     // Quit Button
     Button* quitButton = new Button(QString("Quit"), 200, 40);
     quitButton->setPos(410, 300);
     scene->addItem(quitButton);
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
+    buttonMap.insert(std::pair<Button*, int> (quitButton, 1));
+
+    choiceRect = new ChoiceRect(200, 40, 2, true, nullptr, 300);
+    choiceRect->setPos(110, 300);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
+
 }
 
 /*
