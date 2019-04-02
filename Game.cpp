@@ -73,6 +73,10 @@ void Game::start()
 
     // draw the map
     maps = new Map("/Users/chenxuanyu212/CPPcode/motaGroup4.1/map.dat"); // TO DO: use relative path
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     maps->show(0);                                          // initial render & show floor 0
 
     // draw the hero

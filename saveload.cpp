@@ -287,6 +287,10 @@ void SaveLoad::save(int recordNum)
             break;
     case 5: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord5.dat";
             fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord5.dat";
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
             break;
 
     }
@@ -336,6 +340,10 @@ void SaveLoad::load(int recordNum)
             break;
     case 5: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord5.dat";
             fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord5.dat";
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
             break;
     }
 
