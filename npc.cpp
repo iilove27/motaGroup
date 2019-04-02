@@ -35,6 +35,7 @@ void NPC::show()
     switch (id){
         case 101: npc_img_path = ":/images/101.png"; break;
         case 102: npc_img_path = ":/images/102.png"; break;
+        case 103: npc_img_path = ":/images/103.png"; break;
     }
 
     // load and draw image

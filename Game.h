@@ -19,6 +19,9 @@
 #include "Item.h"
 #include "backpack.h"
 #include "Choicerect.h"
+#include "player.h"
+#include "score.h"
+#include "enemy.h"
 
 class Game: public QGraphicsView
 {   Q_OBJECT
@@ -32,6 +35,10 @@ public:
     Map* maps;
     backpack* backpackSys;
     std::map<Button*, int> buttonMap;
+    Player* player;
+    Score* score;
+    Enemy* enemy;
+    Button* miniGameEndButton;
 
     QGraphicsTextItem* hpText;
     QGraphicsTextItem* atkText;
@@ -46,6 +53,11 @@ public:
     QGraphicsTextItem* redKeyText;
     QGraphicsTextItem* floorFlyText;
     QGraphicsTextItem* monsterSearchText;
+    QGraphicsTextItem* miniGameEndText;
+
+    //QGraphicsTextItem* scoreText;
+
+    QGraphicsRectItem* miniGameEndFrame;
 
     // public methods
     void displayMainMenu();
@@ -68,6 +80,9 @@ private:
     ChoiceRect* choiceRect;
 
 
+    void startMiniGame();
+    void endMiniGame();
+    void showMiniGameEnd(QString frameText,QString buttonText);
 };
 
 #endif // GAME_H

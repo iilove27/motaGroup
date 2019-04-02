@@ -68,6 +68,7 @@ void monsterInfo::showFrame()
             game->scene->addItem(moneyInfo[monsNum]);
         }
         else {
+
             QImage monster_img;
             monster_img.load(imagePath[monsNum]);
             QPixmap hero_pic = QPixmap::fromImage(monster_img.scaled(80, 80));
@@ -119,6 +120,7 @@ void monsterInfo::back()
         game->scene->removeItem(expInfo[monsNum]);
         game->scene->removeItem(moneyInfo[monsNum]);
     }
+
 
     game->hero->setFocusToSelf();
 }

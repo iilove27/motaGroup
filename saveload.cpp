@@ -288,7 +288,9 @@ void SaveLoad::save(int recordNum)
     case 5: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord5.dat";
             fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord5.dat";
 
+
             break;
+
     }
 
     fstream  saveFile;
@@ -322,6 +324,7 @@ void SaveLoad::load(int recordNum)
     //  TO DO: use relative path
     switch (recordNum)
     {
+<<<<<<< HEAD
     case 1: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord1.dat";
             fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord1.dat";
             break;
