@@ -5,8 +5,8 @@
  */
 
 #include "backpack.h"
+#include "monsterinfo.h"
 #include "Game.h"
-#include "Mapfly.h"
 #include <QDebug>
 
 extern Game* game;
@@ -49,9 +49,7 @@ void backpack::showFrame()
         byPos = item_i*40;
         itemButton[item_i]->setPos(bxPos, byPos);
         game->scene->addItem(itemButton[item_i]);
-        if (itemButton[item_i]->getButtonText() == QString("FLY FLOOR")) {
-            connect(itemButton[item_i], SIGNAL(clicked()), this, SLOT(flyFloor()));
-        }
+
         // connect
     }
 }
@@ -59,6 +57,12 @@ void backpack::showFrame()
 void backpack::addNewItem(int itemID)
 {
     itemButton.enqueue(new Button(getNameOfItem(itemID), 200, 40));
+    if (itemButton.last()->getButtonText() == QString("FLY FLOOR")) {
+        connect(itemButton.last(), SIGNAL(clicked()), this, SLOT(flyFloor()));
+    }
+    else if (itemButton.last()->getButtonText() == QString("MONSTER SEARCH")) {
+        connect(itemButton.last(), SIGNAL(clicked()), this, SLOT(searchMonster()));
+    }
 }
 
 QString backpack::getNameOfItem(int itemID)
@@ -82,9 +86,7 @@ void backpack::back()
 
 void backpack::flyFloor()
 {
-    qDebug() << backpackFrame;
     game->scene->removeItem(backpackFrame);
-    qDebug() << "aaaaaa";
     game->scene->removeItem(backButton);
     for (int item_i = 0; item_i < itemButton.size(); item_i++) {
         game->scene->removeItem(itemButton[item_i]);
@@ -92,5 +94,17 @@ void backpack::flyFloor()
 
     MapFly* mapfly = new MapFly();
     mapfly->showFrame();
+}
+
+void backpack::searchMonster()
+{
+    game->scene->removeItem(backpackFrame);
+    game->scene->removeItem(backButton);
+    for (int item_i = 0; item_i < itemButton.size(); item_i++) {
+        game->scene->removeItem(itemButton[item_i]);
+    }
+
+    monsterInfo* monsterinfo = new monsterInfo();
+    monsterinfo->showFrame();
 }
 

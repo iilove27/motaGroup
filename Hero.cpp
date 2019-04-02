@@ -22,6 +22,7 @@
 #include "business.h"
 #include "saveload.h"
 #include "backpack.h"
+#include "npcflygame.h"
 using namespace std;
 
 extern Game * game;
@@ -126,6 +127,10 @@ void Hero::keyPressEvent(QKeyEvent *event)
             if (aroundId == 102) {
                 // business
                 business * businessman = new business(this, game);
+            }
+            if (aroundId == 103) {
+                // mini game starts
+                NPCFlyGame* npcfly = new NPCFlyGame();
             }
         }
         else if (checkMonster(aroundId)){
@@ -250,6 +255,10 @@ void Hero::keyPressEvent(QKeyEvent *event)
                 // business
                 business * businessman = new business(this, game);
             }
+            if (aroundId == 103) {
+                // mini game starts
+                NPCFlyGame* npcfly = new NPCFlyGame();
+            }
         }
         else if (checkMonster(aroundId)){
             setPixmap(QPixmap::fromImage(hero_right2_img.scaled(40, 40)));
@@ -366,6 +375,10 @@ void Hero::keyPressEvent(QKeyEvent *event)
                 // business
                 business * businessman = new business(this, game);
             }
+            if (aroundId == 103) {
+                // mini game starts
+                NPCFlyGame* npcfly = new NPCFlyGame();
+            }
         }
         else if (checkMonster(aroundId)){
             setPixmap(QPixmap::fromImage(hero_up2_img.scaled(40, 40)));
@@ -479,6 +492,11 @@ void Hero::keyPressEvent(QKeyEvent *event)
             if (aroundId == 102) {
                 // business
                 business * businessman = new business(this, game);
+            }
+            if (aroundId == 103) {
+                // mini game starts
+
+                NPCFlyGame* npcfly = new NPCFlyGame();
             }
         }
         else if (checkMonster(aroundId)){
@@ -635,7 +653,7 @@ bool Hero::checkPickable(int aroundID)
 
 bool Hero::checkNPC(int aroundID)
 {
-    if (aroundID == 101 | aroundID == 102) {
+    if (aroundID == 101 | aroundID == 102  | aroundID == 103) {
         return true;
     }
     return false;
