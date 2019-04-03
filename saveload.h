@@ -21,6 +21,7 @@ class SaveLoad: public QObject
 public:
     // constructor
     SaveLoad();
+    std::map<Button*, int> buttonMap;
 public slots:
     void showSaveRecord();
     void showLoadRecord();
@@ -29,11 +30,13 @@ public slots:
     void load(int recordNum);
     void back();
     void backMainMenu();
+    void buttonChosen();
 private:
     // private variables
     QGraphicsRectItem *recordFrame;
     QGraphicsTextItem *recordText;
     Button *recordButton1, *recordButton2, *recordButton3, *recordButton4, *recordButton5, *backButton;
+    ChoiceRect* choiceRect;
 };
 
 #endif // SAVELOAD_H

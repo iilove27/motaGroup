@@ -30,6 +30,8 @@ MsgBoard::MsgBoard(QString name, int x, int y, int width, int height, QGraphicsI
     QTimer::singleShot(600, this, SLOT(deleteAndFocusBack()));  // remove after 400
 }
 
+
+
 /*
  * Implementation notes: deleteAndFocusBack()
  * ------------------------------------------

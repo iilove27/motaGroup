@@ -20,6 +20,7 @@
 #include "Game.h"
 #include <time.h>
 #include <Msgboard.h>
+#include "Choicerect.h"
 
 class battle: public QObject
 {   Q_OBJECT
@@ -35,6 +36,8 @@ public:
     void update();
     void checkCritical();
     void checkDodge();
+    std::map<Button*, int> buttonMap;
+
 
 public slots:
     void battleOnce();  // show
@@ -55,6 +58,8 @@ public slots:
     void SkillShow2();
     void SkillShow3();
     void SkillShow4();
+    void buttonChosen();
+
 private:
     // private variables
     int monsterId, monsterHp, monsterAtk, monsterDef,monsterMoney,monsterEXP;
@@ -79,6 +84,7 @@ private:
     Button* battlebutton1,* battlebutton2,* battlebutton3, *battlebutton4,*battlebutton5,*battlebutton6;
     Button* backButton, *skill1,*skill2,*skill3;
     QTimer* timer;
+    ChoiceRect* choiceRect;
 };
 
 #endif // BATTLE_H

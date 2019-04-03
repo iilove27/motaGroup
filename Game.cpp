@@ -73,6 +73,7 @@ void Game::start()
     backpackSys = new backpack();
 
     // draw the map
+//    Q_INIT_RESOURCE(resources);
     maps = new Map("/Users/clydezhang/motaGroup/map.dat"); // TO DO: use relative path
 
     maps->show(0);                                          // initial render & show floor 0
@@ -132,6 +133,7 @@ void Game::drawPanel(int x, int y, int width, int height, QColor color, double o
 
 void Game::displayMainMenu()
 {    
+    buttonMap.clear();
     // show game title
     QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Magic Tower"));
     QFont titleFont("comic sans", 50);

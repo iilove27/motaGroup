@@ -9,7 +9,7 @@ class ChoiceRect: public QObject, public QGraphicsRectItem
 
 public:
     ChoiceRect(int sizeX, int sizeY, int numOfChoice, bool horizontalChoice, QGraphicsItem* parent=nullptr,
-               int gapX = 0, int gapY = 0);
+               int gapX = 0, int gapY = 0, bool isBattle = false);
     void keyPressEvent(QKeyEvent * event);
     int chosen;
     int getCurrentChoice();
@@ -20,7 +20,7 @@ signals:
 private:
     int numChoice;
     int currentChoice;
-    bool horizontal;
+    bool horizontal, privateisBattle;
     int privategapX, privategapY;
 };
 

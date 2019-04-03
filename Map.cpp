@@ -11,6 +11,7 @@
 #include "Map.h"
 #include "Game.h"
 #include "Hero.h"
+#include <QFile>
 using namespace std;
 
 extern Game* game;
@@ -20,6 +21,9 @@ Map::Map(string filename)
 
     // TO DO: use QFile/QTextStream or other ways to read from relative path
     ifstream file(filename);
+//    Q_INIT_RESOURCE(resources);
+
+//    QFile file(QString(filen;
     if (!file.is_open()) {
         qDebug() << "Could not open map data file (map.dat).";
     }

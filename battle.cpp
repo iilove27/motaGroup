@@ -5,6 +5,7 @@
  */
 
 #include "battle.h"
+#include <iostream>
 
 using namespace std;
 
@@ -179,10 +180,18 @@ void battle::Autoroundbattle()
     // battle
     signal=1;
     game->scene->removeItem(battlebutton1);
+    game->scene->removeItem(choiceRect);
     game->scene->addItem(battlebutton5);
+    std::map<Button*, int>::iterator it;
+    it = buttonMap.find(battlebutton1);
+    buttonMap.erase(it);
+    buttonMap.insert(std::pair<Button*, int> (battlebutton5, 0));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFocus();
     timer = new QTimer(this);
     timer->start(700);
     connect(timer,SIGNAL(timeout()),this,SLOT(battleOnce()));
+
 
 
 }
@@ -192,42 +201,60 @@ void battle::StopAuto()
 {
      timer->stop();
      game->scene->removeItem(battlebutton5);
+     game->scene->removeItem(choiceRect);
      game->scene->addItem(battlebutton1);
+     std::map<Button*, int>::iterator it;
+     it = buttonMap.find(battlebutton5);
+     buttonMap.erase(it);
+     buttonMap.insert(std::pair<Button*, int> (battlebutton1, 0));
+     game->scene->addItem(choiceRect);
+     choiceRect->setFocus();
 }
 
 
 
 void battle::showBattleButton()
 {
+    buttonMap.clear();
     battlebutton1 = new Button("自动攻击", 80, 40);
     battlebutton1->setPos(220, 200);
     connect(battlebutton1, SIGNAL(clicked()), this, SLOT(Autoroundbattle()));
     game->scene->addItem(battlebutton1);
+    buttonMap.insert(std::pair<Button*, int> (battlebutton1, 0));
 
     battlebutton2 = new Button("普通攻击", 80, 40);
     battlebutton2->setPos(340, 200);
     connect(battlebutton2, SIGNAL(clicked()), this, SLOT(battleOnce()));
     game->scene->addItem(battlebutton2);
+    buttonMap.insert(std::pair<Button*, int> (battlebutton2, 1));
 
-    battlebutton3 = new Button("逃跑", 80, 40);
-    battlebutton3->setPos(220, 320);
-    connect(battlebutton3, SIGNAL(clicked()), this, SLOT(stopbattle()));
+    battlebutton3 = new Button("技能", 80, 40);
+    battlebutton3->setPos(220, 260);
+    connect(battlebutton3, SIGNAL(clicked()), this, SLOT(skill()));
     game->scene->addItem(battlebutton3);
+    buttonMap.insert(std::pair<Button*, int> (battlebutton3, 2));
 
-    battlebutton4 = new Button("技能", 80, 40);
-    battlebutton4->setPos(220, 260);
-    connect(battlebutton4, SIGNAL(clicked()), this, SLOT(skill()));
+    battlebutton4 = new Button("逃跑", 80, 40);
+    battlebutton4->setPos(340, 260);
+    connect(battlebutton4, SIGNAL(clicked()), this, SLOT(stopbattle()));
     game->scene->addItem(battlebutton4);
+    buttonMap.insert(std::pair<Button*, int> (battlebutton4, 3));
+
+
 
     battlebutton5 = new Button("中止自动", 80, 40);
     battlebutton5->setPos(220, 200);
     connect(battlebutton5, SIGNAL(clicked()), this, SLOT(StopAuto()));
+//    game->scene->addItem(battlebutton5);
+//    buttonMap.insert(std::pair<Button*, int> (battlebutton5, 4));
 
-    battlebutton6 = new Button("背包", 80, 40);
-    battlebutton6->setPos(340, 260);
-    connect(battlebutton6, SIGNAL(clicked()), this, SLOT(backpack()));
-    game->scene->addItem(battlebutton6);
 
+    choiceRect = new ChoiceRect(80, 40, 4, false, nullptr, 120, 60, true);
+    choiceRect->setPos(220, 200);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
 }
 
 void battle::update()
@@ -305,6 +332,7 @@ void battle::stopbattle()
     if (signal==1)  timer->stop();
     signal=0;
     updateText();
+    game->scene->removeItem(choiceRect);
     game->scene->removeItem(battleFrame);
     game->scene->removeItem(monsterHpText);
     game->scene->removeItem(monsterAtkText);
@@ -332,7 +360,7 @@ void battle::stopbattle()
 
     MsgBoard * msg = new MsgBoard(updateText, 100, 100, 440, 150);
     game->scene->addItem(msg);
-    game->hero->setFocusToSelf(); // focus back
+//    game->hero->setFocusToSelf(); // focus back
 }
 
 void battle::skill()
@@ -545,3 +573,15 @@ void battle::backpack()
 
 }
 
+void battle::buttonChosen()
+{
+    std::cout << "Enter buttonChosen function" << std::endl;
+    int currentChoice = choiceRect->chosen;
+    std::cout << currentChoice;
+    std::map<Button*, int>::iterator it;
+    for (it = buttonMap.begin(); it != buttonMap.end(); it++) {
+        if (it->second == currentChoice) {
+            it->first->chosen();
+        }
+    }
+}
