@@ -180,14 +180,14 @@ void battle::Autoroundbattle()
     // battle
     signal=1;
     game->scene->removeItem(battlebutton1);
-    game->scene->removeItem(choiceRect);
+//    game->scene->removeItem(choiceRect);
     game->scene->addItem(battlebutton5);
-    std::map<Button*, int>::iterator it;
-    it = buttonMap.find(battlebutton1);
-    buttonMap.erase(it);
-    buttonMap.insert(std::pair<Button*, int> (battlebutton5, 0));
-    game->scene->addItem(choiceRect);
-    choiceRect->setFocus();
+//    std::map<Button*, int>::iterator it;
+//    it = buttonMap.find(battlebutton1);
+//    buttonMap.erase(it);
+//    buttonMap.insert(std::pair<Button*, int> (battlebutton5, 0));
+//    game->scene->addItem(choiceRect);
+//    choiceRect->setFocus();
     timer = new QTimer(this);
     timer->start(700);
     connect(timer,SIGNAL(timeout()),this,SLOT(battleOnce()));
@@ -201,14 +201,14 @@ void battle::StopAuto()
 {
      timer->stop();
      game->scene->removeItem(battlebutton5);
-     game->scene->removeItem(choiceRect);
+//     game->scene->removeItem(choiceRect);
      game->scene->addItem(battlebutton1);
-     std::map<Button*, int>::iterator it;
-     it = buttonMap.find(battlebutton5);
-     buttonMap.erase(it);
-     buttonMap.insert(std::pair<Button*, int> (battlebutton1, 0));
-     game->scene->addItem(choiceRect);
-     choiceRect->setFocus();
+//     std::map<Button*, int>::iterator it;
+//     it = buttonMap.find(battlebutton5);
+//     buttonMap.erase(it);
+//     buttonMap.insert(std::pair<Button*, int> (battlebutton1, 0));
+//     game->scene->addItem(choiceRect);
+//     choiceRect->setFocus();
 }
 
 
@@ -249,12 +249,12 @@ void battle::showBattleButton()
 //    buttonMap.insert(std::pair<Button*, int> (battlebutton5, 4));
 
 
-    choiceRect = new ChoiceRect(80, 40, 4, false, nullptr, 120, 60, true);
-    choiceRect->setPos(220, 200);
-    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
-    game->scene->addItem(choiceRect);
-    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
-    choiceRect->setFocus();
+//    choiceRect = new ChoiceRect(80, 40, 4, false, nullptr, 120, 60, true);
+//    choiceRect->setPos(220, 200);
+//    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+//    game->scene->addItem(choiceRect);
+//    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+//    choiceRect->setFocus();
 }
 
 void battle::update()
@@ -332,7 +332,7 @@ void battle::stopbattle()
     if (signal==1)  timer->stop();
     signal=0;
     updateText();
-    game->scene->removeItem(choiceRect);
+//    game->scene->removeItem(choiceRect);
     game->scene->removeItem(battleFrame);
     game->scene->removeItem(monsterHpText);
     game->scene->removeItem(monsterAtkText);

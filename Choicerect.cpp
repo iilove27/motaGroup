@@ -23,6 +23,7 @@ void ChoiceRect::keyPressEvent(QKeyEvent *event)
 {
     // battle 比较特殊，是2x2分布的choice，其他的选择全都是一条线分布（hopefully）。
     if (privateisBattle) {
+        std::cout << currentChoice << std::endl;
         if (currentChoice == 0) {
             if (event->key() == Qt::Key_Down) {
                 this->setPos(this->x(), this->y()+privategapY);
@@ -102,6 +103,7 @@ void ChoiceRect::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Space) {
         chosen = currentChoice;
         emit spacePressed();
+        std::cout << "space pressed" << std::endl;
     }
 
 
