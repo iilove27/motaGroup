@@ -4,8 +4,9 @@
 
 
 ChoiceRect::ChoiceRect(int sizeX, int sizeY, int numOfChoice, bool horizontalChoice, QGraphicsItem *parent,
-                       int gapX, int gapY, bool isBattle): QGraphicsRectItem (parent)
+                       int gapX, int gapY, bool isBattle, bool isbackpack): QGraphicsRectItem (parent)
 {
+    privateisbackpack = isbackpack;
     privategapX = gapX;
     privategapY = gapY;
     chosen = -1;
@@ -17,6 +18,8 @@ ChoiceRect::ChoiceRect(int sizeX, int sizeY, int numOfChoice, bool horizontalCho
     QColor opaqueCyan = Qt::cyan;
     opaqueCyan.setAlphaF(0.3);
     setBrush(opaqueCyan);
+
+
 }
 
 void ChoiceRect::keyPressEvent(QKeyEvent *event)
@@ -70,6 +73,33 @@ void ChoiceRect::keyPressEvent(QKeyEvent *event)
                 currentChoice--;
             }
 
+        }
+    }
+    else if (privateisbackpack) {
+
+
+        if ((event->key() == Qt::Key_Down) && (currentChoice != numChoice-1)) {
+            if (currentChoice == numChoice-2) {
+                this->setPos(this->x(), 400);
+                currentChoice = numChoice - 1;
+
+            }
+            else {
+                this->setPos(this->x(), this->y()+privategapY);
+                currentChoice++;
+            }
+
+        }
+
+        if ((event->key() == Qt::Key_Up) && (currentChoice != 0)) {
+            if (currentChoice == numChoice-1) {
+                this->setPos(this->x(), privategapY*(numChoice-2));
+                currentChoice--;
+            }
+            else {
+                this->setPos(this->x(), this->y()-privategapY);
+                currentChoice--;
+            }
         }
     }
 

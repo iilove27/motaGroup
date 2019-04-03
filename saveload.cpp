@@ -336,20 +336,20 @@ void SaveLoad::save(int recordNum)
     //  TO DO: use relative path
     switch (recordNum)
     {
-    case 1: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord1.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord1.dat";
+    case 1: fileInfoName = "InfoRecord1.dat";
+            fileMapName = "MapRecord1.dat";
             break;
-    case 2: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord2.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord2.dat";
+    case 2: fileInfoName = "InfoRecord2.dat";
+            fileMapName = "MapRecord2.dat";
             break;
-    case 3: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord3.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord3.dat";
+    case 3: fileInfoName = "InfoRecord3.dat";
+            fileMapName = "MapRecord3.dat";
             break;
-    case 4: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord4.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord4.dat";
+    case 4: fileInfoName = "InfoRecord4.dat";
+            fileMapName = "MapRecord4.dat";
             break;
-    case 5: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord5.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord5.dat";
+    case 5: fileInfoName = "InfoRecord5.dat";
+            fileMapName = "MapRecord5.dat";
 
 
             break;
@@ -388,23 +388,23 @@ void SaveLoad::load(int recordNum)
     fstream loadFile;
     string fileInfoName, fileMapName;
 
-    //  TO DO: use relative path
+    //  TO DO: use relative path，我寻思没问题啊？？？
     switch (recordNum)
     {
-    case 1: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord1.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord1.dat";
+    case 1: fileInfoName = "InfoRecord1.dat";
+            fileMapName = "MapRecord1.dat";
             break;
-    case 2: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord2.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord2.dat";
+    case 2: fileInfoName = "InfoRecord2.dat";
+            fileMapName = "MapRecord2.dat";
             break;
-    case 3: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord3.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord3.dat";
+    case 3: fileInfoName = "InfoRecord3.dat";
+            fileMapName = "MapRecord3.dat";
             break;
-    case 4: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord4.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord4.dat";
+    case 4: fileInfoName = "InfoRecord4.dat";
+            fileMapName = "MapRecord4.dat";
             break;
-    case 5: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord5.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord5.dat";
+    case 5: fileInfoName = "InfoRecord5.dat";
+            fileMapName = "MapRecord5.dat";
 
             break;
     }
@@ -443,7 +443,8 @@ void SaveLoad::load(int recordNum)
     game->scene->clear();
 
     // draw the map
-    game->maps = new Map(fileMapName);
+    QString qstr = QString::fromStdString(fileMapName);
+    game->maps = new Map(qstr);
     game->maps->show(new_heroFloor);  // Initial Render
 
     // draw the hero

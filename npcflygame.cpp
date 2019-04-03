@@ -85,8 +85,8 @@ void NPCFlyGame::start()
 {
     // save the information
     fstream  saveFile;
-    saveFile.open("/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoBeforeMiniGame.dat", ios::out|ios::trunc);
-    game->maps->saveMapintoRecord("/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapBeforeMiniGame.dat"); // save map matrix into file
+    saveFile.open("InfoBeforeMiniGame.dat", ios::out|ios::trunc);
+    game->maps->saveMapintoRecord("MapBeforeMiniGame.dat"); // save map matrix into file
 
     // hp,atk,def,lv,money,exp,floor,posX,poxY,redkey,yellowkey,bluekey
     saveFile<< game->hero->getHp()<<endl;

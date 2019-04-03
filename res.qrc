@@ -4,6 +4,7 @@
     </qresource>
     <qresource prefix="/map">
         <file>map.dat</file>
+        <file>MapBeforeMiniGame.dat</file>
     </qresource>
     <qresource prefix="/images">
         <file>4_1.png</file>

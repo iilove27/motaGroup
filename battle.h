@@ -37,6 +37,7 @@ public:
     void checkCritical();
     void checkDodge();
     std::map<Button*, int> buttonMap;
+    std::map<Button*, int> skillbuttonMap;
 
 
 public slots:
@@ -60,6 +61,7 @@ public slots:
     void SkillShow4();
     void buttonChosen();
 
+    void skillbuttonChosen();
 private:
     // private variables
     int monsterId, monsterHp, monsterAtk, monsterDef,monsterMoney,monsterEXP;
