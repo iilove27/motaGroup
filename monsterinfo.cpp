@@ -30,11 +30,19 @@ void monsterInfo::showFrame()
     monsterFrame->setFocus();
 
     // back Button
+    buttonMap.clear();
     backButton = new Button(QString("BACK"), 120, 30);
     backButton->setPos(400, 400);
     connect(backButton, SIGNAL(clicked()), this, SLOT(back()));
     game->scene->addItem(backButton);
+    buttonMap.insert(std::pair<Button*, int> (backButton, 0));
 
+    choiceRect = new ChoiceRect(120, 30, 1, false, nullptr, 0, 0);
+    choiceRect->setPos(400, 400);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
     // Add Image & info
     QFont textFont("comic sans", 10);
 
@@ -110,6 +118,7 @@ bool monsterInfo::checkRepeated(int id)
 
 void monsterInfo::back()
 {
+    game->scene->removeItem(choiceRect);
     game->scene->removeItem(monsterFrame);
     game->scene->removeItem(backButton);
     for (int monsNum = 0; monsNum < monsterID.size(); monsNum++) {
@@ -137,6 +146,19 @@ void monsterInfo::findMonster()
                 default: continue;
                 }
             }
+        }
+    }
+}
+
+void monsterInfo::buttonChosen()
+{
+//    cout << "Enter buttonChosen function" << endl;
+    int currentChoice = choiceRect->chosen;
+//    cout << currentChoice;
+    std::map<Button*, int>::iterator it;
+    for (it = buttonMap.begin(); it != buttonMap.end(); it++) {
+        if (it->second == currentChoice) {
+            it->first->chosen();
         }
     }
 }

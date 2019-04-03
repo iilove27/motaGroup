@@ -73,8 +73,7 @@ void Game::start()
     backpackSys = new backpack();
 
     // draw the map
-    maps = new Map("/Users/clydezhang/motaGroup/map.dat"); // TO DO: use relative path
-
+    maps = new Map(":map/map.dat");
     maps->show(0);                                          // initial render & show floor 0
 
     // draw the hero
@@ -132,6 +131,7 @@ void Game::drawPanel(int x, int y, int width, int height, QColor color, double o
 
 void Game::displayMainMenu()
 {    
+    buttonMap.clear();
     // show game title
     QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Magic Tower"));
     QFont titleFont("comic sans", 50);
@@ -376,7 +376,7 @@ void Game::endMiniGame()
     scene->clear();
     fstream loadFile;
     // order: hp,atk,def,lv,money,exp,floor,posX,poxY,redkey,yellowkey,bluekey
-    loadFile.open("/Users/motaGroup/InfoBeforeMiniGame.dat", ios::in);
+    loadFile.open("InfoBeforeMiniGame.dat", ios::in);
 
     int new_heroHp;
     int new_heroAtk;
@@ -409,7 +409,7 @@ void Game::endMiniGame()
     scene->clear();
 
     // draw the map
-    maps = new Map("/Users/motaGroup/MapBeforeMiniGame.dat");
+    maps = new Map(":maps/MapBeforeMiniGame.dat");
     maps->show(new_heroFloor);  // Initial Render
 
     // draw the hero

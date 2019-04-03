@@ -20,7 +20,7 @@ class Map
 {
 public:
     // constructor
-    Map(string filename);
+    Map(QString filename);
 
     // public variables
     int map2D[4][11][11];   // store map information matrix
