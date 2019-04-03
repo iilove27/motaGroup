@@ -273,24 +273,20 @@ void SaveLoad::save(int recordNum)
     //  TO DO: use relative path
     switch (recordNum)
     {
-    case 1: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord1.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord1.dat";
+    case 1: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord1.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord1.dat";
             break;
-    case 2: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord2.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord2.dat";
+    case 2: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord2.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord2.dat";
             break;
-    case 3: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord3.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord3.dat";
+    case 3: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord3.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord3.dat";
             break;
-    case 4: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord4.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord4.dat";
+    case 4: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord4.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord4.dat";
             break;
-    case 5: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord5.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord5.dat";
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
+    case 5: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord5.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord5.dat";
             break;
 
     }
@@ -326,24 +322,20 @@ void SaveLoad::load(int recordNum)
     //  TO DO: use relative path
     switch (recordNum)
     {
-    case 1: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord1.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord1.dat";
+    case 1: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord1.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4/MapRecord1.dat";
             break;
-    case 2: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord2.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord2.dat";
+    case 2: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord2.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord2.dat";
             break;
-    case 3: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord3.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord3.dat";
+    case 3: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord3.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord3.dat";
             break;
-    case 4: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord4.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord4.dat";
+    case 4: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord4.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord4.dat";
             break;
-    case 5: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/InfoRecord5.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4.1/MapRecord5.dat";
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
+    case 5: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord5.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord5.dat";
             break;
     }
 
