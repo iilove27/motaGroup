@@ -5,10 +5,12 @@
  */
 
 #include "Button.h"
+#include <iostream>
 
 Button::Button(QString name, int sizeX, int sizeY, QGraphicsItem* parent): QGraphicsRectItem (parent)
 {
     // draw the button frame
+    buttonID = 1874; // 随便数
     setRect(0, 0, sizeX, sizeY); // position(0,0) & size(200,40)
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
@@ -39,6 +41,11 @@ void Button::mousePressEvent(QGraphicsSceneMouseEvent* event)
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::darkCyan);
     setBrush(brush);    // change color & style
+    emit clicked();
+}
+
+void Button::chosen()
+{
     emit clicked();
 }
 
@@ -87,4 +94,17 @@ void Button::setButtonText(QString textContent)
 QString Button::getButtonText()
 {
     return textContent;
+}
+
+std::vector<int> Button::getButtonPos()
+{
+    std::vector<int> pos;
+    pos.push_back(int(this->x()));
+    pos.push_back(int(this->y()));
+    return pos;
+}
+
+int Button::getButtonID()
+{
+    return buttonID;
 }

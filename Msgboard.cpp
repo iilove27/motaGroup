@@ -27,7 +27,7 @@ MsgBoard::MsgBoard(QString name, int x, int y, int width, int height, QGraphicsI
     text = new QGraphicsTextItem(name, this);
     text->setPos(150,150);
 
-    QTimer::singleShot(400, this, SLOT(deleteAndFocusBack()));  // remove after 400
+    QTimer::singleShot(600, this, SLOT(deleteAndFocusBack()));  // remove after 400
 }
 
 /*

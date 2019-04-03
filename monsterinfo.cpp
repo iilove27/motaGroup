@@ -36,24 +36,65 @@ void monsterInfo::showFrame()
     game->scene->addItem(backButton);
 
     // Add Image & info
+    QFont textFont("comic sans", 10);
+
     for (int monsNum = 0; monsNum < monsterID.size(); monsNum++) {
         if (monsNum % 2 == 0) {
-            monsterImage[monsNum];
             QImage monster_img;
             monster_img.load(imagePath[monsNum]);
             QPixmap hero_pic = QPixmap::fromImage(monster_img.scaled(80, 80));
             monsterImage[monsNum]->setPixmap(QPixmap::fromImage(monster_img.scaled(60, 60)));
             monsterImage[monsNum]->setPos(120, 80+80*monsNum/2);
             game->scene->addItem(monsterImage[monsNum]);
+
+            hpInfo[monsNum]->setPos(210,80+80*monsNum/2);
+            hpInfo[monsNum]->setFont(textFont);
+            game->scene->addItem(hpInfo[monsNum]);
+
+            atkInfo[monsNum]->setPos(210,90+80*monsNum/2);
+            atkInfo[monsNum]->setFont(textFont);
+            game->scene->addItem(atkInfo[monsNum]);
+
+            defInfo[monsNum]->setPos(210,100+80*monsNum/2);
+            defInfo[monsNum]->setFont(textFont);
+            game->scene->addItem(defInfo[monsNum]);
+
+            expInfo[monsNum]->setPos(210,110+80*monsNum/2);
+            expInfo[monsNum]->setFont(textFont);
+            game->scene->addItem(expInfo[monsNum]);
+
+            moneyInfo[monsNum]->setPos(210,120+80*monsNum/2);
+            moneyInfo[monsNum]->setFont(textFont);
+            game->scene->addItem(moneyInfo[monsNum]);
         }
         else {
-            monsterImage[monsNum];
+
             QImage monster_img;
             monster_img.load(imagePath[monsNum]);
             QPixmap hero_pic = QPixmap::fromImage(monster_img.scaled(80, 80));
             monsterImage[monsNum]->setPixmap(QPixmap::fromImage(monster_img.scaled(60, 60)));
             monsterImage[monsNum]->setPos(340, 80+80*monsNum/2);
             game->scene->addItem(monsterImage[monsNum]);
+
+            hpInfo[monsNum]->setPos(430,80+80*monsNum/2);
+            hpInfo[monsNum]->setFont(textFont);
+            game->scene->addItem(hpInfo[monsNum]);
+
+            atkInfo[monsNum]->setPos(430,90+80*monsNum/2);
+            atkInfo[monsNum]->setFont(textFont);
+            game->scene->addItem(atkInfo[monsNum]);
+
+            defInfo[monsNum]->setPos(430,100+80*monsNum/2);
+            defInfo[monsNum]->setFont(textFont);
+            game->scene->addItem(defInfo[monsNum]);
+
+            expInfo[monsNum]->setPos(430,110+80*monsNum/2);
+            expInfo[monsNum]->setFont(textFont);
+            game->scene->addItem(expInfo[monsNum]);
+
+            moneyInfo[monsNum]->setPos(430,120+80*monsNum/2);
+            moneyInfo[monsNum]->setFont(textFont);
+            game->scene->addItem(moneyInfo[monsNum]);
         }
     }
 }
@@ -73,6 +114,11 @@ void monsterInfo::back()
     game->scene->removeItem(backButton);
     for (int monsNum = 0; monsNum < monsterID.size(); monsNum++) {
         game->scene->removeItem(monsterImage[monsNum]);
+        game->scene->removeItem(hpInfo[monsNum]);
+        game->scene->removeItem(atkInfo[monsNum]);
+        game->scene->removeItem(defInfo[monsNum]);
+        game->scene->removeItem(expInfo[monsNum]);
+        game->scene->removeItem(moneyInfo[monsNum]);
     }
 
 

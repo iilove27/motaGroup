@@ -273,6 +273,7 @@ void SaveLoad::save(int recordNum)
     //  TO DO: use relative path
     switch (recordNum)
     {
+
     case 1: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord1.dat";
             fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord1.dat";
             break;

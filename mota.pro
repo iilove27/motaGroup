@@ -44,12 +44,14 @@ SOURCES += \
     saveload.cpp \
     backpack.cpp \
     Mapfly.cpp \
+    Choicerect.cpp \
     monsterinfo.cpp \
     enemy.cpp \
     bullet.cpp \
     enemybullet.cpp \
     player.cpp \
     npcflygame.cpp
+
 
 HEADERS += \
     Button.h \
@@ -69,12 +71,14 @@ HEADERS += \
     saveload.h \
     backpack.h \
     Mapfly.h \
+    Choicerect.h \
     monsterinfo.h \
     enemy.h \
     bullet.h \
     enemybullet.h \
     player.h \
     npcflygame.h
+
 
 FORMS += \
         mainwindow.ui

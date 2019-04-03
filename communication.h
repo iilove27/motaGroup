@@ -18,6 +18,7 @@
 #include <QObject>
 #include "npc.h"
 #include "Button.h"
+#include "Choicerect.h"
 
 class communication: public QObject, public QGraphicsRectItem
 {   Q_OBJECT
@@ -28,11 +29,17 @@ public:
     // public methods
     void keyPressEvent(QKeyEvent* event);
     bool checkOption(QString sentence);
-    void showButton101();   // show button when communicate with NPC(id=101)
+    std::map<Button*, int> showButton101();   // show button when communicate with NPC(id=101)
+    void showChoiceInit(int x, int y);
+    std::map<Button*, int> buttonMap;
+
 public slots:
     void addText10101();    // add different content
     void addText10102();
     void addText10103();
+    void buttonChosen();
+
+
 
 private:
     // private variable
@@ -41,6 +48,8 @@ private:
 
     QGraphicsTextItem* text;
     Button* buttonOption1,* buttonOption2,* buttonOption3;
+    ChoiceRect* choiceRect;
+
 };
 
 #endif // COMMUNICATION_H

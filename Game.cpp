@@ -48,6 +48,7 @@ Game::Game(QWidget* parent)
 void Game::subtitleMove()
 {
     // clear
+    delete choiceRect;
     scene->clear();
 
     // subtitle Move
@@ -72,6 +73,7 @@ void Game::start()
     backpackSys = new backpack();
 
     // draw the map
+
     maps = new Map("/Users/chenxuanyu212/CPPcode/motaGroup/map.dat"); // TO DO: use relative path
     maps->show(0);                                          // initial render & show floor 0
 
@@ -129,7 +131,7 @@ void Game::drawPanel(int x, int y, int width, int height, QColor color, double o
  */
 
 void Game::displayMainMenu()
-{
+{    
     // show game title
     QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Magic Tower"));
     QFont titleFont("comic sans", 50);
@@ -146,6 +148,7 @@ void Game::displayMainMenu()
     playButton->setPos(bxPos, byPos);
     connect(playButton, SIGNAL(clicked()), this, SLOT(subtitleMove()));
     scene->addItem(playButton);
+    buttonMap.insert(std::pair<Button*, int> (playButton, 0));
 
     // Load button
     Button* loadButton = new Button(QString("Load"), 200, 40);
@@ -154,6 +157,7 @@ void Game::displayMainMenu()
     loadButton->setPos(lxPos, lyPos);
     connect(loadButton, SIGNAL(clicked()), this, SLOT(showLoadOnMainMenu()));
     scene->addItem(loadButton);
+    buttonMap.insert(std::pair<Button*, int> (loadButton, 1));
 
     // Quit button
     Button* quitButton = new Button(QString("Quit"), 200, 40);
@@ -162,6 +166,15 @@ void Game::displayMainMenu()
     quitButton->setPos(qxPos, qyPos);
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
     scene->addItem(quitButton);
+    buttonMap.insert(std::pair<Button*, int> (quitButton, 2));
+
+    choiceRect = new ChoiceRect(200, 40, 3, false, nullptr, 0, 50);
+    choiceRect->setPos(bxPos, byPos);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
 }
 
 /*
@@ -259,6 +272,7 @@ void Game::showSave()
 
 void Game::showLoadOnMainMenu()
 {
+    delete choiceRect;
     SaveLoad *loadFrame = new SaveLoad();
     loadFrame->showLoadRecordOnMainMenu();
 }
@@ -342,15 +356,27 @@ void Game::showMiniGameEnd(QString frameText,QString buttonText)
     miniGameEndButton->setPos(hxPos, hyPos);
     connect(miniGameEndButton, SIGNAL(clicked()), this, SLOT(endMiniGame()));
     game->scene->addItem(miniGameEndButton);
+
+    buttonMap.clear();
+    buttonMap.insert(std::pair<Button*, int> (miniGameEndButton, 0));
+
+    choiceRect = new ChoiceRect(200, 40, 1, false, nullptr, 0, 0);
+    choiceRect->setPos(hxPos, hyPos);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
 }
 
 void Game::endMiniGame()
 {
 
-
+    delete choiceRect;
     scene->clear();
     fstream loadFile;
     // order: hp,atk,def,lv,money,exp,floor,posX,poxY,redkey,yellowkey,bluekey
+
     loadFile.open("/Users/chenxuanyu212/CPPcode/motaGroup/InfoBeforeMiniGame.dat", ios::in);
 
     int new_heroHp;
@@ -384,6 +410,7 @@ void Game::endMiniGame()
     scene->clear();
 
     // draw the map
+
     maps = new Map("/Users/chenxuanyu212/CPPcode/motaGroup/MapBeforeMiniGame.dat");
     maps->show(new_heroFloor);  // Initial Render
 
@@ -433,6 +460,8 @@ void Game::gameOver()
 
 void Game::displayGameoverWindow(QString textToDisplay)
 {
+    buttonMap.clear();
+
     // disable all items
     for (int i = 0, n = scene->items().size(); i < n; i++) scene->items()[i]->setEnabled(false);
 
@@ -449,12 +478,23 @@ void Game::displayGameoverWindow(QString textToDisplay)
     playAgain->setPos(110, 300);
     scene->addItem(playAgain);
     connect(playAgain, SIGNAL(clicked()), this, SLOT(restartGame()));
+    buttonMap.insert(std::pair<Button*, int> (playAgain, 0));
 
     // Quit Button
     Button* quitButton = new Button(QString("Quit"), 200, 40);
     quitButton->setPos(410, 300);
     scene->addItem(quitButton);
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
+    buttonMap.insert(std::pair<Button*, int> (quitButton, 1));
+
+    choiceRect = new ChoiceRect(200, 40, 2, true, nullptr, 300);
+    choiceRect->setPos(110, 300);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
+
 }
 
 /*
@@ -499,5 +539,18 @@ void Game::updateInfo()
         monsterSearchText = new QGraphicsTextItem(QString("Search :\t") + QString("Press I"));
         monsterSearchText->setPos(540, 200);
         scene->addItem(monsterSearchText);
+    }
+}
+
+void Game::buttonChosen()
+{
+    cout << "Enter buttonChosen function" << endl;
+    int currentChoice = choiceRect->chosen;
+    cout << currentChoice;
+    std::map<Button*, int>::iterator it;
+    for (it = buttonMap.begin(); it != buttonMap.end(); it++) {
+        if (it->second == currentChoice) {
+            it->first->chosen();
+        }
     }
 }

@@ -42,11 +42,9 @@
         <file>right2.png</file>
         <file>up1.png</file>
         <file>up2.png</file>
-        <file>103.png</file>
-        <file>zidan1.png</file>
-        <file>zidan3.png</file>
-        <file>bianfu.png</file>
-        <file>SB01.png</file>
+        <file>S1.png</file>
+        <file>S2.png</file>
+        <file>S3.png</file>
     </qresource>
     <qresource prefix="/text">
         <file>101.txt</file>

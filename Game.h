@@ -18,6 +18,7 @@
 #include "npc.h"
 #include "Item.h"
 #include "backpack.h"
+#include "Choicerect.h"
 #include "player.h"
 #include "score.h"
 #include "enemy.h"
@@ -33,6 +34,7 @@ public:
     Hero* hero;
     Map* maps;
     backpack* backpackSys;
+    std::map<Button*, int> buttonMap;
     Player* player;
     Score* score;
     Enemy* enemy;
@@ -72,9 +74,16 @@ public slots:
     void showLoad();
     void showSave();
     void showLoadOnMainMenu();
+    void buttonChosen();
     void startMiniGame();
     void endMiniGame();
     void showMiniGameEnd(QString frameText,QString buttonText);
+
+private:
+    ChoiceRect* choiceRect;
+
+
+
 };
 
 #endif // GAME_H

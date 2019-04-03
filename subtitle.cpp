@@ -31,11 +31,12 @@ subtitle::subtitle(QString content, QGraphicsItem *parent): QGraphicsRectItem(pa
 
     QGraphicsTextItem * skipText = new QGraphicsTextItem("- space -");
     skipText->setPos(440, 400);
+    qDebug() << "aaa";
     game->scene->addItem(skipText);
 
     // subtitle move
     timer = new QTimer(this);
-    timer->start(50);
+    timer->start(5);
     connect(timer,SIGNAL(timeout()),this,SLOT(textMove()));
 }
 
