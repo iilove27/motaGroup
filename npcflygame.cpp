@@ -49,6 +49,7 @@ NPCFlyGame::NPCFlyGame()
     startButton->setPos(hxPos, hyPos);
     connect(startButton, SIGNAL(clicked()), this, SLOT(start()));
     game->scene->addItem(startButton);
+    buttonMap.insert(std::pair<Button*, int> (startButton, 0));
 
     // Add BACK button
     backButton = new Button(QString("BACK"), 200, 40);
@@ -57,11 +58,21 @@ NPCFlyGame::NPCFlyGame()
     backButton->setPos(bxPos, byPos);
     connect(backButton, SIGNAL(clicked()), this, SLOT(back()));
     game->scene->addItem(backButton);
+    buttonMap.insert(std::pair<Button*, int> (backButton, 1));
+
+    choiceRect = new ChoiceRect(200, 40, 2, false, nullptr, 0, 100);
+    choiceRect->setPos(hxPos, hyPos);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
 
 }
 
 void NPCFlyGame::back()
 {
+    game->scene->removeItem(choiceRect);
+    delete choiceRect;
     game->scene->removeItem(miniGameFrame);
     game->scene->removeItem(miniGameText);
     game->scene->removeItem(startButton);
@@ -96,4 +107,16 @@ void NPCFlyGame::start()
     game->startMiniGame();
 }
 
+void NPCFlyGame::buttonChosen()
+{
+    cout << "Enter buttonChosen function" << endl;
+    int currentChoice = choiceRect->chosen;
+    cout << currentChoice;
+    std::map<Button*, int>::iterator it;
+    for (it = buttonMap.begin(); it != buttonMap.end(); it++) {
+        if (it->second == currentChoice) {
+            it->first->chosen();
+        }
+    }
+}
 

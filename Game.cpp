@@ -356,12 +356,23 @@ void Game::showMiniGameEnd(QString frameText,QString buttonText)
     miniGameEndButton->setPos(hxPos, hyPos);
     connect(miniGameEndButton, SIGNAL(clicked()), this, SLOT(endMiniGame()));
     game->scene->addItem(miniGameEndButton);
+
+    buttonMap.clear();
+    buttonMap.insert(std::pair<Button*, int> (miniGameEndButton, 0));
+
+    choiceRect = new ChoiceRect(200, 40, 1, false, nullptr, 0, 0);
+    choiceRect->setPos(hxPos, hyPos);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
 }
 
 void Game::endMiniGame()
 {
 
-
+    delete choiceRect;
     scene->clear();
     fstream loadFile;
     // order: hp,atk,def,lv,money,exp,floor,posX,poxY,redkey,yellowkey,bluekey

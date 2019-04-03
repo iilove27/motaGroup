@@ -24,11 +24,12 @@ public:
     Score* score;
     Enemy* enemy;
     QGraphicsScene* scene;
-
+    std::map<Button*, int> buttonMap;
 
 public slots:
     void back();
     void start();
+    void buttonChosen();
 
 private:
     // private variables
@@ -36,6 +37,7 @@ private:
     Button* startButton,* backButton;
     QGraphicsRectItem* miniGameFrame;
     QGraphicsTextItem* miniGameText;
+    ChoiceRect* choiceRect;
 };
 
 #endif // NPCFLYGAME_H
