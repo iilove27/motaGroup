@@ -140,7 +140,7 @@ void Hero::keyPressEvent(QKeyEvent *event)
 
             if (checkWin(aroundId)) {
                 // battle
-                battle * battleMonster = new battle(game->maps->mons[getPosY()*11+getPosX()-1], this);
+                battle * battleMonster = new battle(game->maps->mons[getPosY()*11+getPosX()-1], this,getPosY()*11+getPosX()-1);
 
                 // update information
                // game->updateInfo();
@@ -265,14 +265,14 @@ void Hero::keyPressEvent(QKeyEvent *event)
             QTimer::singleShot(200, this, SLOT(rightChangePicture()));
             if (checkWin(aroundId)) {
                 // battle
-                battle * battleMonster = new battle(game->maps->mons[getPosY()*11+getPosX()+1], this);
+                battle * battleMonster = new battle(game->maps->mons[getPosY()*11+getPosX()+1], this,getPosY()*11+getPosX()+1);
 
                 // update information
-                game->updateInfo();
+           //     game->updateInfo();
 
                 // update Map
-                game->maps->updateMap(floor, getPosX()+1, getPosY(), 0);
-                delete game->maps->mons[getPosY()*11+getPosX()+1];
+             //   game->maps->updateMap(floor, getPosX()+1, getPosY(), 0);
+               // delete game->maps->mons[getPosY()*11+getPosX()+1];
             }
             checkEnd(aroundId); // Ending test;
         }
@@ -385,7 +385,7 @@ void Hero::keyPressEvent(QKeyEvent *event)
             QTimer::singleShot(200, this, SLOT(upChangePicture()));
             if (checkWin(aroundId)) {
                 // battle
-                battle * battleMonster = new battle(game->maps->mons[getPosY()*11-11+getPosX()], this);
+                battle * battleMonster = new battle(game->maps->mons[getPosY()*11-11+getPosX()], this,getPosY()*11-11+getPosX());
 
                 // update information
               //  game->updateInfo();
@@ -504,7 +504,7 @@ void Hero::keyPressEvent(QKeyEvent *event)
             QTimer::singleShot(200, this, SLOT(downChangePicture()));
             if (checkWin(aroundId)) {
                 // battle
-                battle * battleMonster = new battle(game->maps->mons[getPosY()*11-11+getPosX()], this);
+                battle * battleMonster = new battle(game->maps->mons[getPosY()*11+11+getPosX()], this,getPosY()*11+11+getPosX());
 
                 // update information
               //  game->updateInfo();

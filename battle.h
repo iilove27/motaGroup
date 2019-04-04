@@ -25,7 +25,7 @@ class battle: public QObject
 {   Q_OBJECT
 public:
     // constructor
-    battle(Monster* monster, Hero* hero);
+    battle(Monster* monster, Hero* hero,int Monsterposition);
 
     // public methods
     void battleFrameShow(Monster * monster, Hero * hero);
@@ -41,7 +41,6 @@ public slots:
     void Autoroundbattle();
     void stopbattle();
     void skill();
-    void backpack();
     void back();
     void UseSkill1();
     void UseSkill2();
@@ -57,7 +56,7 @@ public slots:
     void SkillShow4();
 private:
     // private variables
-    int monsterId, monsterHp, monsterAtk, monsterDef,monsterMoney,monsterEXP;
+    int monsterId, monsterHp, monsterAtk, monsterDef,monsterMoney,monsterEXP,monsterposition;
     int heroHp, heroAtk, heroDef;
     int monsterHarm, heroHarm;  // harm = atk - def
     int battleSignal;

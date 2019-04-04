@@ -14,9 +14,9 @@ Monster::Monster(int monsterID, QGraphicsItem *parent): QGraphicsPixmapItem (par
     // set parameters
     switch(id)
     {
-    case 201: name="didi"; hp=50; atk=20; def=1; money=100; experience=100; break;
-    case 202: name="gege"; hp=20; atk=11; def=1; money=10; experience=10; break;
-    case 203: name="gongzhu"; hp=2000; atk=20; def=1; money=1; experience=1; break;
+    case 201: name="didi"; hp=50; atk=30; def=1; money=100; experience=100; break;
+    case 202: name="gege"; hp=50; atk=21; def=1; money=10; experience=10; break;
+    case 203: name="gongzhu"; hp=200; atk=20; def=1; money=1; experience=1; break;
     }
 }
 
