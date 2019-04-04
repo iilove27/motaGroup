@@ -73,7 +73,7 @@ void Game::start()
     backpackSys = new backpack();
 
     // draw the map
-    maps = new Map("/Users/clydezhang/motaGroup/map.dat"); // TO DO: use relative path
+    maps = new Map("D:/senior2/csc3002/mota/motaGroup/map.dat"); // TO DO: use relative path
 
     maps->show(0);                                          // initial render & show floor 0
 
@@ -365,7 +365,7 @@ void Game::endMiniGame()
     scene->clear();
     fstream loadFile;
     // order: hp,atk,def,lv,money,exp,floor,posX,poxY,redkey,yellowkey,bluekey
-    loadFile.open("/Users/motaGroup/InfoBeforeMiniGame.dat", ios::in);
+    loadFile.open("D:/senior2/csc3002/mota/motaGroup/InfoBeforeMiniGame.dat", ios::in);
 
     int new_heroHp;
     int new_heroAtk;
@@ -398,7 +398,7 @@ void Game::endMiniGame()
     scene->clear();
 
     // draw the map
-    maps = new Map("/Users/motaGroup/MapBeforeMiniGame.dat");
+    maps = new Map("D:/senior2/csc3002/mota/motaGroup/MapBeforeMiniGame.dat");
     maps->show(new_heroFloor);  // Initial Render
 
     // draw the hero

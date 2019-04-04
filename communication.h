@@ -12,6 +12,7 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsTextItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsItem>
 #include <QBrush>
 #include <QKeyEvent>
 #include <QQueue>
@@ -32,6 +33,7 @@ public:
     std::map<Button*, int> showButton101();   // show button when communicate with NPC(id=101)
     void showChoiceInit(int x, int y);
     std::map<Button*, int> buttonMap;
+    void show(QString sentence);
 
 public slots:
     void addText10101();    // add different content
@@ -44,12 +46,14 @@ public slots:
 private:
     // private variable
     int id;
-    QQueue<QString> communicationText;
+    int imageid;
+    QQueue<QString> communicationText,nameText;
 
-    QGraphicsTextItem* text;
+    QGraphicsTextItem* text, *nameofNPC;
     Button* buttonOption1,* buttonOption2,* buttonOption3;
     ChoiceRect* choiceRect;
-
+    QString image;
+    QGraphicsPixmapItem* BIG_img;
 };
 
 #endif // COMMUNICATION_H

@@ -45,6 +45,9 @@
         <file>S1.png</file>
         <file>S2.png</file>
         <file>S3.png</file>
+        <file>dragon.png</file>
+        <file>saber.png</file>
+        <file>dragon1.png</file>
     </qresource>
     <qresource prefix="/text">
         <file>101.txt</file>

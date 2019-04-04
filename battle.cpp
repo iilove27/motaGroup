@@ -10,13 +10,13 @@ using namespace std;
 
 extern Game *game;
 
-battle::battle(Monster * monster, Hero * hero)
+battle::battle(Monster * monster, Hero * hero,int Monsterposition)
 {
     StatusOfStun=0;
     StatusOfBurn=0;
     signal=0;
     // if (!checkBattle()) delete this;     // bug
-
+    monsterposition=Monsterposition;
     // get Monster hp & atk & def
     monsterId = monster->getId();
     monsterHp = monster->getHp();
@@ -38,8 +38,9 @@ battle::battle(Monster * monster, Hero * hero)
     // get harm value (>=0)
     monsterHarm = max(0, monsterAtk-heroDef);
     heroHarm = max(0, heroAtk-monsterDef);
-
+    qDebug()<< "xuhaoniubi";
     battleFrameShow(monster,hero); // show battle frame
+
 }
 
 /*
@@ -210,7 +211,7 @@ void battle::showBattleButton()
     game->scene->addItem(battlebutton2);
 
     battlebutton3 = new Button("逃跑", 80, 40);
-    battlebutton3->setPos(220, 320);
+    battlebutton3->setPos(340, 260);
     connect(battlebutton3, SIGNAL(clicked()), this, SLOT(stopbattle()));
     game->scene->addItem(battlebutton3);
 
@@ -223,10 +224,6 @@ void battle::showBattleButton()
     battlebutton5->setPos(220, 200);
     connect(battlebutton5, SIGNAL(clicked()), this, SLOT(StopAuto()));
 
-    battlebutton6 = new Button("背包", 80, 40);
-    battlebutton6->setPos(340, 260);
-    connect(battlebutton6, SIGNAL(clicked()), this, SLOT(backpack()));
-    game->scene->addItem(battlebutton6);
 
 }
 
@@ -239,8 +236,9 @@ void battle::update()
     game->updateInfo();
 
     // update Map
-     game->maps->updateMap(game->hero->getFloor(), game->hero->getPosX(), game->hero->getPosY()-1, 0);
-    delete game->maps->mons[game->hero->getPosY()*11-11+game->hero->getPosX()];
+     game->maps->updateMap(game->hero->getFloor(), monsterposition%11, monsterposition/11, 0);
+   //  qDebug()<< game->maps->map2D[game->hero->getFloor()][game->hero->getPosY()-1][game->hero->getPosX()];
+    delete game->maps->mons[monsterposition];
 
 }
 
@@ -281,18 +279,26 @@ void battle::battleOnce()
     }
     else StatusOfBurn--;
 
-    if (monsterHp <= 0)
+    if (monsterHp <= 0 )
     {
         stopbattle();
         update();
     }
     updateText();
 
+
+
     if (StatusOfStun==0){
-         checkDodge();
+        if  (monsterHp > 0){
+            checkDodge();
+        if ( heroHp <= 0){
+                stopbattle();
+            }
+            updateText();
          monster_img_battle->setPos(130,80);
          QTimer::singleShot(300, this, SLOT(MonsterBacktoPlace()));
          updateText();
+        }
     }
     else {
         StatusOfStun--;
@@ -325,7 +331,8 @@ void battle::stopbattle()
     StatusOfBurn=0;
     StatusOfStun=0;
     QString updateText;
-   if (monsterHp > 0) updateText="你个弟弟竟然跑了";
+   if (monsterHp > 0 &heroHp>0) updateText="你个弟弟竟然跑了(所有状态重置)";
+   else if(monsterHp > 0 &heroHp<=0)updateText="你个弟弟太菜了回去再练练吧(所有状态重置)";
    else{
    updateText = "你获得了\t" + QString::number(monsterMoney)+"元以及\t"+ QString::number(monsterEXP)+"经验";
    }
@@ -422,11 +429,8 @@ void battle::UseSkill1()
      monsterHp -= 2*heroAtk;
      if (monsterHp > 0)  SkillShow1();
      game->scene->addItem(monsterStun);
-     if (monsterHp <= 0)
-     {
-         stopbattle();
-         update();
-     }
+
+
 
      updateText();
      game->scene->removeItem(skillFrame);
@@ -444,16 +448,18 @@ void battle::UseSkill2()
 {
      StatusOfBurn=3;
      monsterHp -= 2.5*heroAtk;
-     if (monsterHp > 0)  SkillShow1();
+     heroHp -= monsterHarm;
+     if (monsterHp > 0 &heroHp >0)  SkillShow1();
      monster_img_battle->setPos(130,80);
      QTimer::singleShot(300, this, SLOT(MonsterBacktoPlace()));
      game->scene->addItem(monsterBurn);
-     if (monsterHp <= 0)
+
+
+
+     if ( heroHp <= 0)
      {
          stopbattle();
-         update();
      }
-     heroHp -= monsterHarm;
      updateText();
      qDebug() << "6666";
      game->scene->removeItem(skillFrame);
@@ -472,9 +478,16 @@ void battle::UseSkill3()
      heroHp += 5;
      monster_img_battle->setPos(130,80);
      heroHp -= monsterHarm;
-     SkillShow1();
+
+     if ( heroHp <= 0)
+     {
+         stopbattle();
+     }
+     else{
+         SkillShow1();
      QTimer::singleShot(300, this, SLOT(MonsterBacktoPlace()));
      updateText();
+     }
      game->scene->removeItem(skillFrame);
      game->scene->removeItem(backButton);
      game->scene->removeItem(skill1);
@@ -489,20 +502,23 @@ void battle::UseSkill3()
 void battle::checkCritical()
 {
     random=rand() / double(RAND_MAX);
-    if (random<0.7) monsterHp -= heroHarm;
+    if (random<0.9) monsterHp -= heroHarm;
     else {
         monsterHp -= 2*heroHarm;
+        if (monsterHp>0){
         critical->setPos(450,240);
         game->scene->addItem(critical);
         QTimer::singleShot(400, this, SLOT(CriticalDisapper()));
+        }
     }
 }
 
 void battle::checkDodge()
 {
     random=rand() / double(RAND_MAX);
-    if (random<0.7) heroHp -= monsterHarm;
+    if (random<0.9) heroHp -= monsterHarm;
     else{
+
         dodge->setPos(460,300);
         game->scene->addItem(dodge);
         QTimer::singleShot(400, this, SLOT(DodgeDisapper()));
@@ -522,26 +538,4 @@ void battle::DodgeDisapper()
 }
 
 
-void battle::backpack()
-{
-
-    backpackFrame = new QGraphicsRectItem();
-    backpackFrame->setRect(220, 0, 200, 440);
-    QBrush brush;
-    brush.setStyle(Qt::SolidPattern);
-    brush.setColor(Qt::darkCyan);
-    backpackFrame->setBrush(brush);
-    game->scene->addItem(backpackFrame);
-    backpackFrame->setFlag(QGraphicsItem::ItemIsFocusable); // avoid events' influence
-    backpackFrame->setFocus();
-
-    backButton = new Button(QString("BACK"), 200, 40);
-    double bxPos = 220;
-    double byPos = 400;
-    backButton->setPos(bxPos, byPos);
-    connect(backButton, SIGNAL(clicked()), this, SLOT(back()));
-    game->scene->addItem(backButton);
-
-
-}
 
