@@ -4,13 +4,17 @@
  * This file implements Button.h interface.
  */
 
-#include "Button.h"
+#include "recordbutton.h"
 #include <iostream>
+#include "Game.h"
+#include <QFileInfo>
+#include <QFile>
+extern Game*game;
 
-Button::Button(QString name, int sizeX, int sizeY, QGraphicsItem* parent): QGraphicsRectItem (parent)
+RecordButton::RecordButton(QString name, int sizeX, int sizeY, QGraphicsItem* parent): QGraphicsRectItem (parent)
 {
     // draw the button frame
-    buttonID = 1784; // 随便数
+    buttonID = 1874; // 随便数
     setRect(0, 0, sizeX, sizeY); // position(0,0) & size(200,40)
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
@@ -35,7 +39,7 @@ Button::Button(QString name, int sizeX, int sizeY, QGraphicsItem* parent): QGrap
  * Use to start, load, close, restart, skip, back, set BGM.
  */
 
-void Button::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void RecordButton::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
@@ -44,7 +48,7 @@ void Button::mousePressEvent(QGraphicsSceneMouseEvent* event)
     emit clicked();
 }
 
-void Button::chosen()
+void RecordButton::chosen()
 {
     emit clicked();
 }
@@ -55,21 +59,49 @@ void Button::chosen()
  * Change color whether mouse hover over the button or not.
  */
 
-void Button::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+void RecordButton::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
     QBrush brush;
+    QString screenShotPath;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::cyan);
     setBrush(brush);    // change color & style
+    /*
+    switch (recordNum)
+    {
+
+    case 1: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot1.png";
+            break;
+    case 2: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot2.png";
+            break;
+    case 3: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot3.png";
+            break;
+    case 4: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot4.png";
+            break;
+    case 5: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot5.png";
+            break;
+    }
+    */
+
+    if (QFileInfo(screenShotPath).exists()==false){
+        screenShotPath="/Users/chenxuanyu212/CPPcode/motaGroup/far.png";
+    }
+    screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot1.png";
+    QImage image(screenShotPath);
+
+    yulan = new QGraphicsPixmapItem(QPixmap::fromImage(image.scaled(20,20,Qt::KeepAspectRatioByExpanding)));
+    game->scene->addItem(yulan);
+
 
 }
 
-void Button::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+void RecordButton::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::darkCyan);
-    setBrush(brush);    // change color & style   
+    setBrush(brush);    // change color & style
+    game->scene->removeItem(yulan);
 }
 
 /*
@@ -78,7 +110,7 @@ void Button::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
  * Change text content on the <code>Button</code>.
  */
 
-void Button::setButtonText(QString textContent)
+void RecordButton::setButtonText(QString textContent)
 {
     text->setPlainText(textContent);
     double xPos = rect().width()/2 - text->boundingRect().width()/2;
@@ -92,12 +124,12 @@ void Button::setButtonText(QString textContent)
  * Return name on the Button.
  */
 
-QString Button::getButtonText()
+QString RecordButton::getButtonText()
 {
     return textContent;
 }
 
-std::vector<int> Button::getButtonPos()
+std::vector<int> RecordButton::getButtonPos()
 {
     std::vector<int> pos;
     pos.push_back(int(this->x()));
@@ -105,7 +137,7 @@ std::vector<int> Button::getButtonPos()
     return pos;
 }
 
-int Button::getButtonID()
+int RecordButton::getButtonID()
 {
     return buttonID;
 }

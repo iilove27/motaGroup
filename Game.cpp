@@ -26,6 +26,8 @@
 #include "saveload.h"
 #include "Msgboard.h"
 #include <QString>
+#include <QFileInfo>
+#include <QFile>
 
 using namespace std;
 
@@ -284,7 +286,7 @@ void Game::startMiniGame()
     // create the scene
     scene = new QGraphicsScene();
     scene->setSceneRect(0,0,440+100*2,440);
-    setBackgroundBrush(QBrush(QImage(":/images/bg.png").scaled(440+100*2, 440)));
+    setBackgroundBrush(QBrush(QImage(":/images/far.jpg").scaled(440+100*2, 440)));
     setScene(scene);
     setFixedSize(640,440);
 
@@ -293,7 +295,7 @@ void Game::startMiniGame()
 
     // create the player
     player = new Player();
-    player->setPos(300,300); // TODO generalize to always be in the middle bottom of screen
+    player->setPos(300,300);
 
     player->setScale(0.7);
     // make the player focusable and set it to be the current focus
@@ -369,6 +371,26 @@ void Game::showMiniGameEnd(QString frameText,QString buttonText)
 
 }
 
+void Game::screenShot()
+{
+    scene->clearSelection();
+    scene->setSceneRect(scene->itemsBoundingRect());
+    // Re-shrink the scene to it's bounding contents
+    QImage image(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
+    // Create the image with the exact size of the shrunk scene
+    image.fill(Qt::transparent);
+    // Start all pixels transparent
+    QPainter painter(&image);
+    scene->render(&painter);
+
+    if (QFileInfo("/Users/chenxuanyu212/CPPcode/motaGroup/temp.png").exists()){
+        QFile screenShotFile("/Users/chenxuanyu212/CPPcode/motaGroup/temp.png");
+        screenShotFile.remove();
+        image.save("/Users/chenxuanyu212/CPPcode/motaGroup/temp.png");
+    }
+    image.save("/Users/chenxuanyu212/CPPcode/motaGroup/temp.png");
+}
+
 void Game::endMiniGame()
 {
 
@@ -408,7 +430,7 @@ void Game::endMiniGame()
 
     // clear
     scene->clear();
-
+    setBackgroundBrush(QBrush(QImage(":/images/bg.png").scaled(440+100*2, 440)));
     // draw the map
 
     maps = new Map("/Users/chenxuanyu212/CPPcode/motaGroup/MapBeforeMiniGame.dat");

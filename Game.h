@@ -78,6 +78,9 @@ public slots:
     void startMiniGame();
     void endMiniGame();
     void showMiniGameEnd(QString frameText,QString buttonText);
+    void screenShot();
+
+
 
 private:
     ChoiceRect* choiceRect;

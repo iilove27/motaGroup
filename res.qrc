@@ -49,6 +49,10 @@
         <file>bianfu.png</file>
         <file>SB01.png</file>
         <file>zidan1.png</file>
+        <file>xuedi.png</file>
+        <file>far.jpg</file>
+        <file>map1.jpg</file>
+        <file>Space.png</file>
     </qresource>
     <qresource prefix="/text">
         <file>101.txt</file>

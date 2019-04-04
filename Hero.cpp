@@ -60,7 +60,9 @@ void Hero::keyPressEvent(QKeyEvent *event)
 {
     // Key_S
     if (event->key() == Qt::Key_S) {
+        game->screenShot();
         game->showSave();
+
     }
 
     // Key_L

@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "Msgboard.h"
 #include <fstream>
+#include <QString>
 
 extern Game * game;
 
@@ -44,59 +45,59 @@ void SaveLoad::showSaveRecord()
     game->scene->addItem(recordText);
 
     // draw record1 button
-    recordButton1 = new Button(QString("Record 1"), 200, 40);
+    saveButton1 = new Button(QString("Record 1"), 200, 40);
     double hxPos1 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos1 = 120;
-    recordButton1->setPos(hxPos1, hyPos1);
+    saveButton1->setPos(hxPos1, hyPos1);
     QSignalMapper *signalMapper1 = new QSignalMapper(this);
-    signalMapper1->setMapping(recordButton1, 1);
-    connect(recordButton1, SIGNAL(clicked()), signalMapper1, SLOT(map()));
+    signalMapper1->setMapping(saveButton1, 1);
+    connect(saveButton1, SIGNAL(clicked()), signalMapper1, SLOT(map()));
     connect(signalMapper1, SIGNAL(mapped(int)), this, SLOT(save(int)));
-    game->scene->addItem(recordButton1);
+    game->scene->addItem(saveButton1);
 
     // draw record2 button
-    recordButton2 = new Button(QString("Record 2"), 200, 40);
+    saveButton2 = new Button(QString("Record 2"), 200, 40);
     double hxPos2 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos2 = 170;
-    recordButton2->setPos(hxPos2, hyPos2);
+    saveButton2->setPos(hxPos2, hyPos2);
     QSignalMapper *signalMapper2 = new QSignalMapper(this);
-    signalMapper2->setMapping(recordButton2, 2);
-    connect(recordButton2, SIGNAL(clicked()), signalMapper2, SLOT(map()));
+    signalMapper2->setMapping(saveButton2, 2);
+    connect(saveButton2, SIGNAL(clicked()), signalMapper2, SLOT(map()));
     connect(signalMapper2, SIGNAL(mapped(int)), this, SLOT(save(int)));
-    game->scene->addItem(recordButton2);
+    game->scene->addItem(saveButton2);
 
     // draw record3 button
-    recordButton3 = new Button(QString("Record 3"), 200, 40);
+    saveButton3 = new Button(QString("Record 3"), 200, 40);
     double hxPos3 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos3 = 220;
-    recordButton3->setPos(hxPos3, hyPos3);
+    saveButton3->setPos(hxPos3, hyPos3);
     QSignalMapper *signalMapper3 = new QSignalMapper(this);
-    signalMapper3->setMapping(recordButton3, 3);
-    connect(recordButton3, SIGNAL(clicked()), signalMapper3, SLOT(map()));
+    signalMapper3->setMapping(saveButton3, 3);
+    connect(saveButton3, SIGNAL(clicked()), signalMapper3, SLOT(map()));
     connect(signalMapper3, SIGNAL(mapped(int)), this, SLOT(save(int)));
-    game->scene->addItem(recordButton3);
+    game->scene->addItem(saveButton3);
 
     // Add record4 button
-    recordButton4 = new Button(QString("Record 4"), 200, 40);
+    saveButton4 = new Button(QString("Record 4"), 200, 40);
     double hxPos4 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos4 = 270;
-    recordButton4->setPos(hxPos4, hyPos4);
+    saveButton4->setPos(hxPos4, hyPos4);
     QSignalMapper *signalMapper4 = new QSignalMapper(this);
-    signalMapper4->setMapping(recordButton4, 4);
-    connect(recordButton4, SIGNAL(clicked()), signalMapper4, SLOT(map()));
+    signalMapper4->setMapping(saveButton4, 4);
+    connect(saveButton4, SIGNAL(clicked()), signalMapper4, SLOT(map()));
     connect(signalMapper4, SIGNAL(mapped(int)), this, SLOT(save(int)));
-    game->scene->addItem(recordButton4);
+    game->scene->addItem(saveButton4);
 
     // draw record5 button
-    recordButton5 = new Button(QString("Record 5"), 200, 40);
+    saveButton5 = new Button(QString("Record 5"), 200, 40);
     double hxPos5 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos5 = 320;
-    recordButton5->setPos(hxPos5, hyPos5);
+    saveButton5->setPos(hxPos5, hyPos5);
     QSignalMapper *signalMapper5 = new QSignalMapper(this);
-    signalMapper5->setMapping(recordButton5, 5);
-    connect(recordButton5, SIGNAL(clicked()), signalMapper5, SLOT(map()));
+    signalMapper5->setMapping(saveButton5, 5);
+    connect(saveButton5, SIGNAL(clicked()), signalMapper5, SLOT(map()));
     connect(signalMapper5, SIGNAL(mapped(int)), this, SLOT(save(int)));
-    game->scene->addItem(recordButton5);
+    game->scene->addItem(saveButton5);
 
     // draw back button
     backButton = new Button(QString("Back"), 200, 40);
@@ -120,7 +121,7 @@ void SaveLoad::showLoadRecord()
     game->scene->addItem(recordText);
 
     // draw record1 button
-    recordButton1 = new Button(QString("Record 1"), 200, 40);
+    recordButton1 = new RecordButton(QString("Record 1"), 200, 40);
     double hxPos1 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos1 = 120;
     recordButton1->setPos(hxPos1, hyPos1);
@@ -131,7 +132,7 @@ void SaveLoad::showLoadRecord()
     game->scene->addItem(recordButton1);
 
     // draw record2 button
-    recordButton2 = new Button(QString("Record 2"), 200, 40);
+    recordButton2 = new RecordButton(QString("Record 2"), 200, 40);
     double hxPos2 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos2 = 170;
     recordButton2->setPos(hxPos2, hyPos2);
@@ -142,7 +143,7 @@ void SaveLoad::showLoadRecord()
     game->scene->addItem(recordButton2);
 
     // draw record3 button
-    recordButton3 = new Button(QString("Record 3"), 200, 40);
+    recordButton3 = new RecordButton(QString("Record 3"), 200, 40);
     double hxPos3 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos3 = 220;
     recordButton3->setPos(hxPos3, hyPos3);
@@ -153,7 +154,7 @@ void SaveLoad::showLoadRecord()
     game->scene->addItem(recordButton3);
 
     // Add record4 button
-    recordButton4 = new Button(QString("Record 4"), 200, 40);
+    recordButton4 = new RecordButton(QString("Record 4"), 200, 40);
     double hxPos4 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos4 = 270;
     recordButton4->setPos(hxPos4, hyPos4);
@@ -164,7 +165,7 @@ void SaveLoad::showLoadRecord()
     game->scene->addItem(recordButton4);
 
     // draw record5 button
-    recordButton5 = new Button(QString("Record 5"), 200, 40);
+    recordButton5 = new RecordButton(QString("Record 5"), 200, 40);
     double hxPos5 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos5 = 320;
     recordButton5->setPos(hxPos5, hyPos5);
@@ -195,7 +196,7 @@ void SaveLoad::showLoadRecordOnMainMenu()
     game->scene->addItem(recordText);
 
     // draw record1 button
-    recordButton1 = new Button(QString("Record 1"), 200, 40);
+    recordButton1 = new RecordButton(QString("Record 1"), 200, 40);
     double hxPos1 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos1 = 120;
     recordButton1->setPos(hxPos1, hyPos1);
@@ -205,8 +206,9 @@ void SaveLoad::showLoadRecordOnMainMenu()
     connect(signalMapper1, SIGNAL(mapped(int)), this, SLOT(load(int)));
     game->scene->addItem(recordButton1);
 
+
     // draw record2 button
-    recordButton2 = new Button(QString("Record 2"), 200, 40);
+    recordButton2 = new RecordButton(QString("Record 2"), 200, 40);
     double hxPos2 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos2 = 170;
     recordButton2->setPos(hxPos2, hyPos2);
@@ -217,7 +219,7 @@ void SaveLoad::showLoadRecordOnMainMenu()
     game->scene->addItem(recordButton2);
 
     // draw record3 button
-    recordButton3 = new Button(QString("Record 3"), 200, 40);
+    recordButton3 = new RecordButton(QString("Record 3"), 200, 40);
     double hxPos3 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos3 = 220;
     recordButton3->setPos(hxPos3, hyPos3);
@@ -228,7 +230,7 @@ void SaveLoad::showLoadRecordOnMainMenu()
     game->scene->addItem(recordButton3);
 
     // Add record4 button
-    recordButton4 = new Button(QString("Record 4"), 200, 40);
+    recordButton4 = new RecordButton(QString("Record 4"), 200, 40);
     double hxPos4 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos4 = 270;
     recordButton4->setPos(hxPos4, hyPos4);
@@ -239,7 +241,7 @@ void SaveLoad::showLoadRecordOnMainMenu()
     game->scene->addItem(recordButton4);
 
     // draw record5 button
-    recordButton5 = new Button(QString("Record 5"), 200, 40);
+    recordButton5 = new RecordButton(QString("Record 5"), 200, 40);
     double hxPos5 = game->width()/2 - recordText->boundingRect().width()/2;
     double hyPos5 = 320;
     recordButton5->setPos(hxPos5, hyPos5);
@@ -256,6 +258,7 @@ void SaveLoad::showLoadRecordOnMainMenu()
     backButton->setPos(bxPos, byPos);
     connect(backButton, SIGNAL(clicked()), this, SLOT(backMainMenu()));
     game->scene->addItem(backButton);
+
 }
 
 /*
@@ -269,6 +272,7 @@ void SaveLoad::save(int recordNum)
     QString showText = "Save successfully";
     string fileInfoName;
     string fileMapName;
+    QString fileScreenShotName;
 
     //  TO DO: use relative path
     switch (recordNum)
@@ -276,18 +280,23 @@ void SaveLoad::save(int recordNum)
 
     case 1: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord1.dat";
             fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord1.dat";
+            fileScreenShotName="/Users/chenxuanyu212/CPPcode/motaGroup/screenshot1.png";
             break;
     case 2: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord2.dat";
             fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord2.dat";
+            fileScreenShotName="/Users/chenxuanyu212/CPPcode/motaGroup/screenshot2.png";
             break;
     case 3: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord3.dat";
             fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord3.dat";
+            fileScreenShotName="/Users/chenxuanyu212/CPPcode/motaGroup/screenshot3.png";
             break;
     case 4: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord4.dat";
             fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord4.dat";
+            fileScreenShotName="/Users/chenxuanyu212/CPPcode/motaGroup/screenshot4.png";
             break;
     case 5: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord5.dat";
             fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord5.dat";
+            fileScreenShotName="/Users/chenxuanyu212/CPPcode/motaGroup/screenshot5.png";
             break;
 
     }
@@ -310,6 +319,15 @@ void SaveLoad::save(int recordNum)
     saveFile<< game->hero->getYellowKey()<<endl;
     saveFile<< game->hero->getBlueKey()<<endl;
     saveFile.close();
+
+    if (QFileInfo(fileScreenShotName).exists()){
+        QFile screenShotFile(fileScreenShotName);
+        screenShotFile.remove();
+        QFile tempFile("/Users/chenxuanyu212/CPPcode/motaGroup/temp.png");
+        tempFile.rename(fileScreenShotName);
+    }
+    QFile tempFile("/Users/chenxuanyu212/CPPcode/motaGroup/temp.png");
+    tempFile.rename(fileScreenShotName);
 
     MsgBoard * msg = new MsgBoard(showText, 100, 100, 440, 150);
     game->scene->addItem(msg);
