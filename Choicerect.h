@@ -13,7 +13,9 @@ public:
     void keyPressEvent(QKeyEvent * event);
     int chosen;
     int getCurrentChoice();
+    bool canMove;
 
+    void setCurrentChoice(int setter);
 signals:
     void spacePressed();
 

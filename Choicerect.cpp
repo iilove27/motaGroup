@@ -6,6 +6,7 @@
 ChoiceRect::ChoiceRect(int sizeX, int sizeY, int numOfChoice, bool horizontalChoice, QGraphicsItem *parent,
                        int gapX, int gapY, bool isBattle, bool isbackpack): QGraphicsRectItem (parent)
 {
+    canMove = true;
     privateisbackpack = isbackpack;
     privategapX = gapX;
     privategapY = gapY;
@@ -25,110 +26,113 @@ ChoiceRect::ChoiceRect(int sizeX, int sizeY, int numOfChoice, bool horizontalCho
 void ChoiceRect::keyPressEvent(QKeyEvent *event)
 {
     // battle 比较特殊，是2x2分布的choice，其他的选择全都是一条线分布（hopefully）。
-    if (privateisBattle) {
-        std::cout << currentChoice << std::endl;
-        if (currentChoice == 0) {
-            if (event->key() == Qt::Key_Down) {
-                this->setPos(this->x(), this->y()+privategapY);
-                currentChoice += 2;
-            }
-            if (event->key() == Qt::Key_Right) {
-                this->setPos(this->x()+privategapX, this->y());
-                currentChoice++;
-            }
-
-        }
-
-        else if (currentChoice == 1) {
-            if (event->key() == Qt::Key_Down) {
-                this->setPos(this->x(), this->y()+privategapY);
-                currentChoice += 2;
-            }
-            if (event->key() == Qt::Key_Left) {
-                this->setPos(this->x()-privategapX, this->y());
-                currentChoice--;
-            }
-
-        }
-
-        else if (currentChoice == 2) {
-            if (event->key() == Qt::Key_Up) {
-                this->setPos(this->x(), this->y()-privategapY);
-                currentChoice -= 2;
-            }
-            if (event->key() == Qt::Key_Right) {
-                this->setPos(this->x()+privategapX, this->y());
-                currentChoice++;
-            }
-
-        }
-
-        else if (currentChoice == 3) {
-            if (event->key() == Qt::Key_Up) {
-                this->setPos(this->x(), this->y()-privategapY);
-                currentChoice -= 2;
-            }
-            if (event->key() == Qt::Key_Left) {
-                this->setPos(this->x()-privategapX, this->y());
-                currentChoice--;
-            }
-
-        }
-    }
-    else if (privateisbackpack) {
-
-
-        if ((event->key() == Qt::Key_Down) && (currentChoice != numChoice-1)) {
-            if (currentChoice == numChoice-2) {
-                this->setPos(this->x(), 400);
-                currentChoice = numChoice - 1;
+    if (canMove) {
+        if (privateisBattle) {
+            std::cout << currentChoice << std::endl;
+            if (currentChoice == 0) {
+                if (event->key() == Qt::Key_Down) {
+                    this->setPos(this->x(), this->y()+privategapY);
+                    currentChoice += 2;
+                }
+                if (event->key() == Qt::Key_Right) {
+                    this->setPos(this->x()+privategapX, this->y());
+                    currentChoice++;
+                }
 
             }
-            else {
-                this->setPos(this->x(), this->y()+privategapY);
-                currentChoice++;
+
+            else if (currentChoice == 1) {
+                if (event->key() == Qt::Key_Down) {
+                    this->setPos(this->x(), this->y()+privategapY);
+                    currentChoice += 2;
+                }
+                if (event->key() == Qt::Key_Left) {
+                    this->setPos(this->x()-privategapX, this->y());
+                    currentChoice--;
+                }
+
             }
 
-        }
+            else if (currentChoice == 2) {
+                if (event->key() == Qt::Key_Up) {
+                    this->setPos(this->x(), this->y()-privategapY);
+                    currentChoice -= 2;
+                }
+                if (event->key() == Qt::Key_Right) {
+                    this->setPos(this->x()+privategapX, this->y());
+                    currentChoice++;
+                }
 
-        if ((event->key() == Qt::Key_Up) && (currentChoice != 0)) {
-            if (currentChoice == numChoice-1) {
-                this->setPos(this->x(), privategapY*(numChoice-2));
-                currentChoice--;
             }
-            else {
-                this->setPos(this->x(), this->y()-privategapY);
-                currentChoice--;
+
+            else if (currentChoice == 3) {
+                if (event->key() == Qt::Key_Up) {
+                    this->setPos(this->x(), this->y()-privategapY);
+                    currentChoice -= 2;
+                }
+                if (event->key() == Qt::Key_Left) {
+                    this->setPos(this->x()-privategapX, this->y());
+                    currentChoice--;
+                }
+
             }
         }
-    }
+        else if (privateisbackpack) {
 
-    else {
-        if (horizontal) {
-            if ((event->key() == Qt::Key_Left) && (currentChoice != 0)) {
-                this->setPos(this->x()-privategapX, this->y());
-                currentChoice--;
+
+            if ((event->key() == Qt::Key_Down) && (currentChoice != numChoice-1)) {
+                if (currentChoice == numChoice-2) {
+                    this->setPos(this->x(), 400);
+                    currentChoice = numChoice - 1;
+
+                }
+                else {
+                    this->setPos(this->x(), this->y()+privategapY);
+                    currentChoice++;
+                }
+
             }
 
-            if ((event->key() == Qt::Key_Right) && (currentChoice != numChoice-1)) {
-                this->setPos(this->x()+privategapX, this->y());
-                currentChoice++;
+            if ((event->key() == Qt::Key_Up) && (currentChoice != 0)) {
+                if (currentChoice == numChoice-1) {
+                    this->setPos(this->x(), privategapY*(numChoice-2));
+                    currentChoice--;
+                }
+                else {
+                    this->setPos(this->x(), this->y()-privategapY);
+                    currentChoice--;
+                }
             }
         }
 
         else {
-            if ((event->key() == Qt::Key_Up) && (currentChoice != 0)) {
-                this->setPos(this->x(), this->y()-privategapY);
-                currentChoice--;
+            if (horizontal) {
+                if ((event->key() == Qt::Key_Left) && (currentChoice != 0)) {
+                    this->setPos(this->x()-privategapX, this->y());
+                    currentChoice--;
+                }
+
+                if ((event->key() == Qt::Key_Right) && (currentChoice != numChoice-1)) {
+                    this->setPos(this->x()+privategapX, this->y());
+                    currentChoice++;
+                }
             }
 
-            if ((event->key() == Qt::Key_Down) && (currentChoice != numChoice-1)) {
-                this->setPos(this->x(), this->y()+privategapY);
-                currentChoice++;
+            else {
+                if ((event->key() == Qt::Key_Up) && (currentChoice != 0)) {
+                    this->setPos(this->x(), this->y()-privategapY);
+                    currentChoice--;
+                }
+
+                if ((event->key() == Qt::Key_Down) && (currentChoice != numChoice-1)) {
+                    this->setPos(this->x(), this->y()+privategapY);
+                    currentChoice++;
+                }
             }
+
         }
-
     }
+
 
     if (event->key() == Qt::Key_Space) {
         chosen = currentChoice;
@@ -144,4 +148,9 @@ int ChoiceRect::getCurrentChoice()
 {
     std::cout << currentChoice;
     return currentChoice;
+}
+
+void ChoiceRect::setCurrentChoice(int setter)
+{
+    currentChoice = setter;
 }

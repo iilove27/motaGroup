@@ -180,11 +180,24 @@ void battle::Autoroundbattle()
 {
     // battle
     signal=1;
-    game->scene->removeItem(battlebutton1);
+//    buttonMap.erase(buttonMap.find(battlebutton1));
+
+//    game->scene->removeItem(battlebutton1);
+//    game->scene->removeItem(battlebutton2);
+//    game->scene->removeItem(battlebutton3);
+    choiceRect->setPos(340, 260);
+//    choiceRect->chosen = 3;
+    battlebutton1->disabledColor();
+    battlebutton2->disabledColor();
+    battlebutton3->disabledColor();
+
+    choiceRect->setCurrentChoice(3);
+    choiceRect->canMove = false;
+
 //    game->scene->removeItem(choiceRect);
 
-    cout << "remove choiceRect in autoroundbattle" << endl;
-    game->scene->addItem(battlebutton5);
+//    cout << "remove choiceRect in autoroundbattle" << endl;
+//    game->scene->addItem(battlebutton5);
 //    buttonMap.erase(buttonMap.find(battlebutton1));
 //    buttonMap.insert(std::pair<Button*, int> (battlebutton5, 0));
 //    game->scene->addItem(choiceRect);
@@ -507,7 +520,7 @@ void battle::UseSkill1()
      game->scene->removeItem(skill3);
      delete choiceRect;
 
-     if (monsterHp > 0) {
+     if (monsterHp > 0 && heroHp > 0) {
          choiceRect = new ChoiceRect(80, 40, 4, false, nullptr, 120, 60, true);
          choiceRect->setPos(220, 200);
          connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
@@ -552,7 +565,7 @@ void battle::UseSkill2()
      game->scene->removeItem(skill3);
      monsterBurn->setPos(120,210);
 
-     if (monsterHp > 0) {
+     if (monsterHp > 0 && heroHp > 0) {
          choiceRect = new ChoiceRect(80, 40, 4, false, nullptr, 120, 60, true);
          choiceRect->setPos(220, 200);
          connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
@@ -589,14 +602,14 @@ void battle::UseSkill3()
      game->scene->removeItem(skill3);
      game->scene->removeItem(choiceRect);
 
-     choiceRect = new ChoiceRect(80, 40, 4, false, nullptr, 120, 60, true);
-     choiceRect->setPos(220, 200);
-     connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
-     game->scene->addItem(choiceRect);
-     choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
-     choiceRect->setFocus();
-
-
+     if (heroHp > 0) {
+         choiceRect = new ChoiceRect(80, 40, 4, false, nullptr, 120, 60, true);
+         choiceRect->setPos(220, 200);
+         connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+         game->scene->addItem(choiceRect);
+         choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+         choiceRect->setFocus();
+     }
 
 }
 

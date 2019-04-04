@@ -108,3 +108,11 @@ int Button::getButtonID()
 {
     return buttonID;
 }
+
+void Button::disabledColor()
+{
+    QBrush brush;
+    brush.setStyle(Qt::SolidPattern);
+    brush.setColor(Qt::gray);
+    setBrush(brush);
+}

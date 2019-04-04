@@ -38,6 +38,7 @@ public:
     void chosen();
     int getButtonID();
 
+    void disabledColor();
 signals:
     void clicked();
 

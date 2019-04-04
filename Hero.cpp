@@ -31,7 +31,7 @@ Hero::Hero(QGraphicsItem *parent): QGraphicsPixmapItem(parent)
 {
     // default
     lv = 1;
-    hp = 10;
+    hp = 1000;
     atk = 10;
     def = 10;
     money = 0;

@@ -14,6 +14,8 @@ extern Game* game;
 communication::communication(NPC* npc, QGraphicsItem* parent): QGraphicsRectItem(parent)
 {
     // set text based on ID
+    BIG_img = new QGraphicsPixmapItem();
+
     id = npc->getId();
     switch(id) {
     case 101:
@@ -239,10 +241,8 @@ void communication::buttonChosen()
 
 void communication::show(QString sentence)
 {
-        game->scene->removeItem(BIG_img);
         if (sentence=="恶龙🐲") imageid=1;
         if (sentence=="史莱姆👼") imageid=2;
-        BIG_img = new QGraphicsPixmapItem();
         QString big_img_path;
         switch (imageid)
         {
