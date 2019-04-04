@@ -11,32 +11,50 @@
 #include "Map.h"
 #include "Game.h"
 #include "Hero.h"
+#include <QFile>
+#include <sstream>
+#include <string>
+
 using namespace std;
 
 extern Game* game;
 
-Map::Map(string filename)
+Map::Map(QString filename)
 {
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        cout << "File not open";
+    else cout << "File opened";
 
-    // TO DO: use QFile/QTextStream or other ways to read from relative path
-    ifstream file(filename);
-    if (!file.is_open()) {
-        qDebug() << "Could not open map data file (map.dat).";
-    }
-    else {
-        for (int map_f = 0; map_f < 4; map_f++) {
-            for (int map_i = 0; map_i < 11; map_i++) {
-                for (int map_j = 0; map_j < 11; map_j++) {
-                    file >> map2D[map_f][map_i][map_j];
-                    int map_id = map2D[map_f][map_i][map_j];
-                    if (map_id > 100 && map_id < 200)
-                    {
-                        npcs[map_id % 100] = new NPC(map_id);   // create NPC
-                    }
-                }
+    QTextStream in(&file);
+    QString line;
+    string yihang;
+
+
+    for (int map_f = 0; map_f < 4; map_f++) {
+        for (int map_hang = 0; map_hang < 11; map_hang++) {
+            line = in.readLine();
+            if (line.isEmpty()) {
+                map_hang--;
+                continue;
             }
+            yihang = line.toStdString();
+            std::stringstream stream(yihang);
+            int id;
+            int lie = 0;
+            while ((stream >> id) && (lie <= 11)) {
+                map2D[map_f][map_hang][lie] = id;
+                if (id > 100 && id < 200) npcs[id % 100] = new NPC(id);
+                lie++;
+
+            }
+
         }
     }
+
+    file.close();
+    qDebug() << "Reading finished";
+
 }
 
 /*

@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "Msgboard.h"
 #include <fstream>
+#include <iostream>
 
 extern Game * game;
 
@@ -34,6 +35,7 @@ SaveLoad::SaveLoad()
 
 void SaveLoad::showSaveRecord()
 {
+    buttonMap.clear();
     // draw the text
     recordText = new QGraphicsTextItem(QString("Choose which record you want to save"));
     QFont titleFont("comic sans", 10);
@@ -53,6 +55,7 @@ void SaveLoad::showSaveRecord()
     connect(recordButton1, SIGNAL(clicked()), signalMapper1, SLOT(map()));
     connect(signalMapper1, SIGNAL(mapped(int)), this, SLOT(save(int)));
     game->scene->addItem(recordButton1);
+    buttonMap.insert(std::pair<Button*, int> (recordButton1, 0));
 
     // draw record2 button
     recordButton2 = new Button(QString("Record 2"), 200, 40);
@@ -64,6 +67,8 @@ void SaveLoad::showSaveRecord()
     connect(recordButton2, SIGNAL(clicked()), signalMapper2, SLOT(map()));
     connect(signalMapper2, SIGNAL(mapped(int)), this, SLOT(save(int)));
     game->scene->addItem(recordButton2);
+    buttonMap.insert(std::pair<Button*, int> (recordButton2, 1));
+
 
     // draw record3 button
     recordButton3 = new Button(QString("Record 3"), 200, 40);
@@ -75,6 +80,8 @@ void SaveLoad::showSaveRecord()
     connect(recordButton3, SIGNAL(clicked()), signalMapper3, SLOT(map()));
     connect(signalMapper3, SIGNAL(mapped(int)), this, SLOT(save(int)));
     game->scene->addItem(recordButton3);
+    buttonMap.insert(std::pair<Button*, int> (recordButton3, 2));
+
 
     // Add record4 button
     recordButton4 = new Button(QString("Record 4"), 200, 40);
@@ -86,6 +93,8 @@ void SaveLoad::showSaveRecord()
     connect(recordButton4, SIGNAL(clicked()), signalMapper4, SLOT(map()));
     connect(signalMapper4, SIGNAL(mapped(int)), this, SLOT(save(int)));
     game->scene->addItem(recordButton4);
+    buttonMap.insert(std::pair<Button*, int> (recordButton4, 3));
+
 
     // draw record5 button
     recordButton5 = new Button(QString("Record 5"), 200, 40);
@@ -97,6 +106,8 @@ void SaveLoad::showSaveRecord()
     connect(recordButton5, SIGNAL(clicked()), signalMapper5, SLOT(map()));
     connect(signalMapper5, SIGNAL(mapped(int)), this, SLOT(save(int)));
     game->scene->addItem(recordButton5);
+    buttonMap.insert(std::pair<Button*, int> (recordButton5, 4));
+
 
     // draw back button
     backButton = new Button(QString("Back"), 200, 40);
@@ -105,6 +116,15 @@ void SaveLoad::showSaveRecord()
     backButton->setPos(bxPos, byPos);
     connect(backButton, SIGNAL(clicked()), this, SLOT(back()));
     game->scene->addItem(backButton);
+    buttonMap.insert(std::pair<Button*, int> (backButton, 5));
+
+    choiceRect = new ChoiceRect(200, 40, 6, false, nullptr, 0, 50);
+    choiceRect->setPos(hxPos1, hyPos1);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
 }
 
 
@@ -119,6 +139,8 @@ void SaveLoad::showLoadRecord()
     recordText->setPos(txPos, tyPos);
     game->scene->addItem(recordText);
 
+    buttonMap.clear();
+
     // draw record1 button
     recordButton1 = new Button(QString("Record 1"), 200, 40);
     double hxPos1 = game->width()/2 - recordText->boundingRect().width()/2;
@@ -129,6 +151,8 @@ void SaveLoad::showLoadRecord()
     connect(recordButton1, SIGNAL(clicked()), signalMapper1, SLOT(map()));
     connect(signalMapper1, SIGNAL(mapped(int)), this, SLOT(load(int)));
     game->scene->addItem(recordButton1);
+    buttonMap.insert(std::pair<Button*, int> (recordButton1, 0));
+
 
     // draw record2 button
     recordButton2 = new Button(QString("Record 2"), 200, 40);
@@ -140,6 +164,8 @@ void SaveLoad::showLoadRecord()
     connect(recordButton2, SIGNAL(clicked()), signalMapper2, SLOT(map()));
     connect(signalMapper2, SIGNAL(mapped(int)), this, SLOT(load(int)));
     game->scene->addItem(recordButton2);
+    buttonMap.insert(std::pair<Button*, int> (recordButton2, 1));
+
 
     // draw record3 button
     recordButton3 = new Button(QString("Record 3"), 200, 40);
@@ -151,6 +177,8 @@ void SaveLoad::showLoadRecord()
     connect(recordButton3, SIGNAL(clicked()), signalMapper3, SLOT(map()));
     connect(signalMapper3, SIGNAL(mapped(int)), this, SLOT(load(int)));
     game->scene->addItem(recordButton3);
+    buttonMap.insert(std::pair<Button*, int> (recordButton3, 2));
+
 
     // Add record4 button
     recordButton4 = new Button(QString("Record 4"), 200, 40);
@@ -162,6 +190,8 @@ void SaveLoad::showLoadRecord()
     connect(recordButton4, SIGNAL(clicked()), signalMapper4, SLOT(map()));
     connect(signalMapper4, SIGNAL(mapped(int)), this, SLOT(load(int)));
     game->scene->addItem(recordButton4);
+    buttonMap.insert(std::pair<Button*, int> (recordButton4, 3));
+
 
     // draw record5 button
     recordButton5 = new Button(QString("Record 5"), 200, 40);
@@ -173,6 +203,8 @@ void SaveLoad::showLoadRecord()
     connect(recordButton5, SIGNAL(clicked()), signalMapper5, SLOT(map()));
     connect(signalMapper5, SIGNAL(mapped(int)), this, SLOT(load(int)));
     game->scene->addItem(recordButton5);
+    buttonMap.insert(std::pair<Button*, int> (recordButton5, 4));
+
 
     // draw back button
     backButton = new Button(QString("Back"), 200, 40);
@@ -181,6 +213,16 @@ void SaveLoad::showLoadRecord()
     backButton->setPos(bxPos, byPos);
     connect(backButton, SIGNAL(clicked()), this, SLOT(back()));
     game->scene->addItem(backButton);
+    buttonMap.insert(std::pair<Button*, int> (backButton, 5));
+
+
+    choiceRect = new ChoiceRect(200, 40, 6, false, nullptr, 0, 50);
+    choiceRect->setPos(hxPos1, hyPos1);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
 }
 
 void SaveLoad::showLoadRecordOnMainMenu()
@@ -194,6 +236,8 @@ void SaveLoad::showLoadRecordOnMainMenu()
     recordText->setPos(txPos, tyPos);
     game->scene->addItem(recordText);
 
+    buttonMap.clear();
+
     // draw record1 button
     recordButton1 = new Button(QString("Record 1"), 200, 40);
     double hxPos1 = game->width()/2 - recordText->boundingRect().width()/2;
@@ -204,6 +248,8 @@ void SaveLoad::showLoadRecordOnMainMenu()
     connect(recordButton1, SIGNAL(clicked()), signalMapper1, SLOT(map()));
     connect(signalMapper1, SIGNAL(mapped(int)), this, SLOT(load(int)));
     game->scene->addItem(recordButton1);
+    buttonMap.insert(std::pair<Button*, int> (recordButton1, 0));
+
 
     // draw record2 button
     recordButton2 = new Button(QString("Record 2"), 200, 40);
@@ -215,6 +261,8 @@ void SaveLoad::showLoadRecordOnMainMenu()
     connect(recordButton2, SIGNAL(clicked()), signalMapper2, SLOT(map()));
     connect(signalMapper2, SIGNAL(mapped(int)), this, SLOT(load(int)));
     game->scene->addItem(recordButton2);
+    buttonMap.insert(std::pair<Button*, int> (recordButton2, 1));
+
 
     // draw record3 button
     recordButton3 = new Button(QString("Record 3"), 200, 40);
@@ -226,6 +274,7 @@ void SaveLoad::showLoadRecordOnMainMenu()
     connect(recordButton3, SIGNAL(clicked()), signalMapper3, SLOT(map()));
     connect(signalMapper3, SIGNAL(mapped(int)), this, SLOT(load(int)));
     game->scene->addItem(recordButton3);
+    buttonMap.insert(std::pair<Button*, int> (recordButton3, 2));
 
     // Add record4 button
     recordButton4 = new Button(QString("Record 4"), 200, 40);
@@ -237,6 +286,8 @@ void SaveLoad::showLoadRecordOnMainMenu()
     connect(recordButton4, SIGNAL(clicked()), signalMapper4, SLOT(map()));
     connect(signalMapper4, SIGNAL(mapped(int)), this, SLOT(load(int)));
     game->scene->addItem(recordButton4);
+    buttonMap.insert(std::pair<Button*, int> (recordButton4, 3));
+
 
     // draw record5 button
     recordButton5 = new Button(QString("Record 5"), 200, 40);
@@ -248,6 +299,8 @@ void SaveLoad::showLoadRecordOnMainMenu()
     connect(recordButton5, SIGNAL(clicked()), signalMapper5, SLOT(map()));
     connect(signalMapper5, SIGNAL(mapped(int)), this, SLOT(load(int)));
     game->scene->addItem(recordButton5);
+    buttonMap.insert(std::pair<Button*, int> (recordButton5, 4));
+
 
     // draw back button
     backButton = new Button(QString("Back"), 200, 40);
@@ -256,6 +309,15 @@ void SaveLoad::showLoadRecordOnMainMenu()
     backButton->setPos(bxPos, byPos);
     connect(backButton, SIGNAL(clicked()), this, SLOT(backMainMenu()));
     game->scene->addItem(backButton);
+    buttonMap.insert(std::pair<Button*, int> (backButton, 5));
+
+    choiceRect = new ChoiceRect(200, 40, 6, false, nullptr, 0, 50);
+    choiceRect->setPos(hxPos1, hyPos1);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
 }
 
 /*
@@ -266,6 +328,7 @@ void SaveLoad::showLoadRecordOnMainMenu()
 
 void SaveLoad::save(int recordNum)
 {
+
     QString showText = "Save successfully";
     string fileInfoName;
     string fileMapName;
@@ -273,20 +336,20 @@ void SaveLoad::save(int recordNum)
     //  TO DO: use relative path
     switch (recordNum)
     {
-    case 1: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord1.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord1.dat";
+    case 1: fileInfoName = "InfoRecord1.dat";
+            fileMapName = "MapRecord1.dat";
             break;
-    case 2: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord2.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord2.dat";
+    case 2: fileInfoName = "InfoRecord2.dat";
+            fileMapName = "MapRecord2.dat";
             break;
-    case 3: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord3.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord3.dat";
+    case 3: fileInfoName = "InfoRecord3.dat";
+            fileMapName = "MapRecord3.dat";
             break;
-    case 4: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord4.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord4.dat";
+    case 4: fileInfoName = "InfoRecord4.dat";
+            fileMapName = "MapRecord4.dat";
             break;
-    case 5: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord5.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord5.dat";
+    case 5: fileInfoName = "InfoRecord5.dat";
+            fileMapName = "MapRecord5.dat";
 
 
             break;
@@ -312,8 +375,12 @@ void SaveLoad::save(int recordNum)
     saveFile<< game->hero->getBlueKey()<<endl;
     saveFile.close();
 
-    MsgBoard * msg = new MsgBoard(showText, 100, 100, 440, 150);
-    game->scene->addItem(msg);
+//    MsgBoard * msg = new MsgBoard(showText, 100, 100, 440, 150);
+//    game->scene->addItem(msg);
+
+    // 能不能不要这个message board啊，用别的方式告诉用户储存成功了？比如改那个button的text
+
+    this->choiceRect->setFocus();
 }
 
 void SaveLoad::load(int recordNum)
@@ -321,23 +388,23 @@ void SaveLoad::load(int recordNum)
     fstream loadFile;
     string fileInfoName, fileMapName;
 
-    //  TO DO: use relative path
+    //  TO DO: use relative path，我寻思没问题啊？？？
     switch (recordNum)
     {
-    case 1: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord1.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord1.dat";
+    case 1: fileInfoName = "InfoRecord1.dat";
+            fileMapName = "MapRecord1.dat";
             break;
-    case 2: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord2.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord2.dat";
+    case 2: fileInfoName = "InfoRecord2.dat";
+            fileMapName = "MapRecord2.dat";
             break;
-    case 3: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord3.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord3.dat";
+    case 3: fileInfoName = "InfoRecord3.dat";
+            fileMapName = "MapRecord3.dat";
             break;
-    case 4: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord4.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord4.dat";
+    case 4: fileInfoName = "InfoRecord4.dat";
+            fileMapName = "MapRecord4.dat";
             break;
-    case 5: fileInfoName = "D:/senior2/csc3002/mota/motaGroup/InfoRecord5.dat";
-            fileMapName = "D:/senior2/csc3002/mota/motaGroup/MapRecord5.dat";
+    case 5: fileInfoName = "InfoRecord5.dat";
+            fileMapName = "MapRecord5.dat";
 
             break;
     }
@@ -376,7 +443,8 @@ void SaveLoad::load(int recordNum)
     game->scene->clear();
 
     // draw the map
-    game->maps = new Map(fileMapName);
+    QString qstr = QString::fromStdString(fileMapName);
+    game->maps = new Map(qstr);
     game->maps->show(new_heroFloor);  // Initial Render
 
     // draw the hero
@@ -419,6 +487,8 @@ void SaveLoad::load(int recordNum)
 
 void SaveLoad::back()
 {
+    game->scene->removeItem(choiceRect);
+    delete choiceRect;
     game->scene->removeItem(recordFrame);
     game->scene->removeItem(recordText);
     game->scene->removeItem(recordButton1);
@@ -435,6 +505,7 @@ void SaveLoad::back()
 void SaveLoad::backMainMenu()
 {
     // only remove items since hero is not created on main menu
+    game->scene->removeItem(choiceRect);
     game->scene->removeItem(recordFrame);
     game->scene->removeItem(recordText);
     game->scene->removeItem(recordButton1);
@@ -443,5 +514,20 @@ void SaveLoad::backMainMenu()
     game->scene->removeItem(recordButton4);
     game->scene->removeItem(recordButton5);
     game->scene->removeItem(backButton);
+
+    game->displayMainMenu();
     // delete this;
+}
+
+void SaveLoad::buttonChosen()
+{
+    std::cout << "Enter buttonChosen function" << std::endl;
+    int currentChoice = choiceRect->chosen;
+    std::cout << currentChoice;
+    std::map<Button*, int>::iterator it;
+    for (it = buttonMap.begin(); it != buttonMap.end(); it++) {
+        if (it->second == currentChoice) {
+            it->first->chosen();
+        }
+    }
 }

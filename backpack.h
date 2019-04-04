@@ -17,16 +17,20 @@ public:
     void showFrame();
     void addNewItem(int itemID);
     QString getNameOfItem(int itemID);
+    std::map<Button*, int> buttonMap;
 public slots:
     // void showButton();
     void back();
     void flyFloor();
     void searchMonster();
+    void buttonChosen();
+
 private:
     // private variables
     QQueue<Button*> itemButton;
     QGraphicsRectItem* backpackFrame;
     Button* backButton;
+    ChoiceRect* choiceRect;
 };
 
 #endif // BACKPACK_H

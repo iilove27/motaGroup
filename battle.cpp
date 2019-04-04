@@ -5,6 +5,7 @@
  */
 
 #include "battle.h"
+#include <iostream>
 
 using namespace std;
 
@@ -180,11 +181,21 @@ void battle::Autoroundbattle()
     // battle
     signal=1;
     game->scene->removeItem(battlebutton1);
+//    game->scene->removeItem(choiceRect);
+
+    cout << "remove choiceRect in autoroundbattle" << endl;
     game->scene->addItem(battlebutton5);
+//    buttonMap.erase(buttonMap.find(battlebutton1));
+//    buttonMap.insert(std::pair<Button*, int> (battlebutton5, 0));
+//    game->scene->addItem(choiceRect);
+//    choiceRect->setFocus();
+
     timer = new QTimer(this);
     timer->start(700);
     connect(timer,SIGNAL(timeout()),this,SLOT(battleOnce()));
 
+
+    // 中止自动战斗，写不来！
 
 }
 
@@ -193,37 +204,65 @@ void battle::StopAuto()
 {
      timer->stop();
      game->scene->removeItem(battlebutton5);
+//     game->scene->removeItem(choiceRect);
      game->scene->addItem(battlebutton1);
+//     buttonMap.erase(buttonMap.find(battlebutton5));
+//     buttonMap.insert(std::pair<Button*, int> (battlebutton1, 0));
+//     game->scene->addItem(choiceRect);
+//     choiceRect->setFocus();
+
 }
 
 
 
 void battle::showBattleButton()
 {
+    buttonMap.clear();
+
     battlebutton1 = new Button("自动攻击", 80, 40);
     battlebutton1->setPos(220, 200);
     connect(battlebutton1, SIGNAL(clicked()), this, SLOT(Autoroundbattle()));
     game->scene->addItem(battlebutton1);
+    buttonMap.insert(std::pair<Button*, int> (battlebutton1, 0));
 
     battlebutton2 = new Button("普通攻击", 80, 40);
     battlebutton2->setPos(340, 200);
     connect(battlebutton2, SIGNAL(clicked()), this, SLOT(battleOnce()));
     game->scene->addItem(battlebutton2);
+    buttonMap.insert(std::pair<Button*, int> (battlebutton2, 1));
 
-    battlebutton3 = new Button("逃跑", 80, 40);
-    battlebutton3->setPos(340, 260);
-    connect(battlebutton3, SIGNAL(clicked()), this, SLOT(stopbattle()));
-    game->scene->addItem(battlebutton3);
 
-    battlebutton4 = new Button("技能", 80, 40);
-    battlebutton4->setPos(220, 260);
-    connect(battlebutton4, SIGNAL(clicked()), this, SLOT(skill()));
+    battlebutton4 = new Button("逃跑", 80, 40);
+    battlebutton4->setPos(340, 260);
+    connect(battlebutton4, SIGNAL(clicked()), this, SLOT(stopbattle()));
     game->scene->addItem(battlebutton4);
+    buttonMap.insert(std::pair<Button*, int> (battlebutton4, 3));
+
+
+    battlebutton3 = new Button("技能", 80, 40);
+    battlebutton3->setPos(220, 260);
+    connect(battlebutton3, SIGNAL(clicked()), this, SLOT(skill()));
+    game->scene->addItem(battlebutton3);
+    buttonMap.insert(std::pair<Button*, int> (battlebutton3, 2));
 
     battlebutton5 = new Button("中止自动", 80, 40);
     battlebutton5->setPos(220, 200);
     connect(battlebutton5, SIGNAL(clicked()), this, SLOT(StopAuto()));
+//    buttonMap.insert(std::pair<Button*, int> (battlebutton1, 0));
 
+//    battlebutton6 = new Button("背包", 80, 40);
+//    battlebutton6->setPos(340, 260);
+//    connect(battlebutton6, SIGNAL(clicked()), this, SLOT(backpack()));
+//    game->scene->addItem(battlebutton6);
+//    buttonMap.insert(std::pair<Button*,int> (battlebutton1, 0));
+
+
+    choiceRect = new ChoiceRect(80, 40, 4, true, nullptr, 120, 60, true);
+    choiceRect->setPos(220, 200);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
 
 }
 
@@ -311,6 +350,7 @@ void battle::stopbattle()
     if (signal==1)  timer->stop();
     signal=0;
     updateText();
+    game->scene->removeItem(choiceRect);
     game->scene->removeItem(battleFrame);
     game->scene->removeItem(monsterHpText);
     game->scene->removeItem(monsterAtkText);
@@ -325,7 +365,7 @@ void battle::stopbattle()
     game->scene->removeItem(battlebutton3);
     game->scene->removeItem(battlebutton4);
     game->scene->removeItem(battlebutton5);
-    game->scene->removeItem(battlebutton6);
+//    game->scene->removeItem(battlebutton6);
     game->scene->removeItem(monsterStun);
     game->scene->removeItem(monsterBurn);
     StatusOfBurn=0;
@@ -344,7 +384,9 @@ void battle::stopbattle()
 
 void battle::skill()
 {
+    skillbuttonMap.clear();
 
+    delete choiceRect;
     skillFrame = new QGraphicsRectItem();
     skillFrame->setRect(220, 0, 200, 440);
     QBrush brush;
@@ -361,14 +403,16 @@ void battle::skill()
     backButton->setPos(bxPos, byPos);
     connect(backButton, SIGNAL(clicked()), this, SLOT(back()));
     game->scene->addItem(backButton);
+    skillbuttonMap.insert(std::pair<Button*, int> (backButton, 3));
 
     skill1 = new Button(QString("龙之俯冲(伤害与眩晕）"), 200, 60);
      bxPos = 220;
      byPos = 0;
     skill1->setPos(bxPos, byPos);
     connect(skill1, SIGNAL(clicked()), this, SLOT(UseSkill1()));
-
     game->scene->addItem(skill1);
+    skillbuttonMap.insert(std::pair<Button*, int> (skill1, 0));
+
 
     skill2 = new Button(QString("大字爆炎（伤害与灼烧）"), 200, 60);
      bxPos = 220;
@@ -376,6 +420,8 @@ void battle::skill()
      skill2->setPos(bxPos, byPos);
      connect(skill2, SIGNAL(clicked()), this, SLOT(UseSkill2()));
      game->scene->addItem(skill2);
+     skillbuttonMap.insert(std::pair<Button*, int> (skill2, 1));
+
 
      skill3 = new Button(QString("自我再生（回复血量）"), 200, 60);
      bxPos = 220;
@@ -383,18 +429,35 @@ void battle::skill()
     skill3->setPos(bxPos, byPos);
     connect(skill3, SIGNAL(clicked()), this, SLOT(UseSkill3()));
     game->scene->addItem(skill3);
+    skillbuttonMap.insert(std::pair<Button*, int> (skill3, 2));
 
+    choiceRect = new ChoiceRect(200, 60, 4, false, nullptr, 0, 60, false, true);
+    choiceRect->setPos(220, 0);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(skillbuttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
+    // 如果没有技能的话(也就是只有一个choice)，就setPos到back上先。
 
 }
 
 void battle::back()
 {
+    game->scene->removeItem(choiceRect);
     game->scene->removeItem(skillFrame);
-    game->scene->removeItem(backpackFrame);
+//    game->scene->removeItem(backpackFrame);
     game->scene->removeItem(backButton);
     game->scene->removeItem(skill1);
     game->scene->removeItem(skill2);
     game->scene->removeItem(skill3);
+
+    choiceRect = new ChoiceRect(80, 40, 4, false, nullptr, 120, 60, true);
+    choiceRect->setPos(220, 200);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
 }
 void battle::SkillShow1()
 {
@@ -430,16 +493,30 @@ void battle::UseSkill1()
      if (monsterHp > 0)  SkillShow1();
      game->scene->addItem(monsterStun);
 
-
-
+     if (monsterHp <= 0)
+     {
+         game->scene->removeItem(choiceRect);
+         stopbattle();
+         update();
+     }
      updateText();
      game->scene->removeItem(skillFrame);
      game->scene->removeItem(backButton);
      game->scene->removeItem(skill1);
      game->scene->removeItem(skill2);
      game->scene->removeItem(skill3);
-     monsterStun->setPos(120,170);
+     delete choiceRect;
 
+     if (monsterHp > 0) {
+         choiceRect = new ChoiceRect(80, 40, 4, false, nullptr, 120, 60, true);
+         choiceRect->setPos(220, 200);
+         connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+         game->scene->addItem(choiceRect);
+         choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+         choiceRect->setFocus();
+
+         monsterStun->setPos(120,170);
+     }
 
 }
 
@@ -454,20 +531,37 @@ void battle::UseSkill2()
      QTimer::singleShot(300, this, SLOT(MonsterBacktoPlace()));
      game->scene->addItem(monsterBurn);
 
-
+     if (monsterHp<=0)
+     {
+	     stopbattle();
+	     update();
+     }
 
      if ( heroHp <= 0)
      {
+         game->scene->removeItem(choiceRect);
          stopbattle();
      }
      updateText();
      qDebug() << "6666";
+     game->scene->removeItem(choiceRect);
      game->scene->removeItem(skillFrame);
      game->scene->removeItem(backButton);
      game->scene->removeItem(skill1);
      game->scene->removeItem(skill2);
      game->scene->removeItem(skill3);
      monsterBurn->setPos(120,210);
+
+     if (monsterHp > 0) {
+         choiceRect = new ChoiceRect(80, 40, 4, false, nullptr, 120, 60, true);
+         choiceRect->setPos(220, 200);
+         connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+         game->scene->addItem(choiceRect);
+         choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+         choiceRect->setFocus();
+
+     }
+
 
 
 }
@@ -493,6 +587,14 @@ void battle::UseSkill3()
      game->scene->removeItem(skill1);
      game->scene->removeItem(skill2);
      game->scene->removeItem(skill3);
+     game->scene->removeItem(choiceRect);
+
+     choiceRect = new ChoiceRect(80, 40, 4, false, nullptr, 120, 60, true);
+     choiceRect->setPos(220, 200);
+     connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+     game->scene->addItem(choiceRect);
+     choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+     choiceRect->setFocus();
 
 
 
@@ -538,4 +640,30 @@ void battle::DodgeDisapper()
 }
 
 
+
+void battle::buttonChosen()
+{
+    std::cout << "Enter buttonChosen function" << std::endl;
+    int currentChoice = choiceRect->chosen;
+    std::cout << currentChoice;
+    std::map<Button*, int>::iterator it;
+    for (it = buttonMap.begin(); it != buttonMap.end(); it++) {
+        if (it->second == currentChoice) {
+            it->first->chosen();
+        }
+    }
+}
+
+void battle::skillbuttonChosen()
+{
+    std::cout << "Enter skillbuttonChosen function" << std::endl;
+    int currentChoice = choiceRect->chosen;
+    std::cout << currentChoice;
+    std::map<Button*, int>::iterator it;
+    for (it = skillbuttonMap.begin(); it != skillbuttonMap.end(); it++) {
+        if (it->second == currentChoice) {
+            it->first->chosen();
+        }
+    }
+}
 

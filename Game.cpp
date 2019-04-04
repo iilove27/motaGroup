@@ -73,8 +73,7 @@ void Game::start()
     backpackSys = new backpack();
 
     // draw the map
-    maps = new Map("D:/senior2/csc3002/mota/motaGroup/map.dat"); // TO DO: use relative path
-
+    maps = new Map(":map/map.dat");
     maps->show(0);                                          // initial render & show floor 0
 
     // draw the hero
@@ -132,6 +131,7 @@ void Game::drawPanel(int x, int y, int width, int height, QColor color, double o
 
 void Game::displayMainMenu()
 {    
+    buttonMap.clear();
     // show game title
     QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Magic Tower"));
     QFont titleFont("comic sans", 50);
@@ -356,16 +356,28 @@ void Game::showMiniGameEnd(QString frameText,QString buttonText)
     miniGameEndButton->setPos(hxPos, hyPos);
     connect(miniGameEndButton, SIGNAL(clicked()), this, SLOT(endMiniGame()));
     game->scene->addItem(miniGameEndButton);
+
+    buttonMap.clear();
+    buttonMap.insert(std::pair<Button*, int> (miniGameEndButton, 0));
+
+    choiceRect = new ChoiceRect(200, 40, 1, false, nullptr, 0, 0);
+    choiceRect->setPos(hxPos, hyPos);
+    connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
+    game->scene->addItem(choiceRect);
+    choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
+    choiceRect->setFocus();
+
 }
 
 void Game::endMiniGame()
 {
 
-
+    delete choiceRect;
     scene->clear();
     fstream loadFile;
     // order: hp,atk,def,lv,money,exp,floor,posX,poxY,redkey,yellowkey,bluekey
-    loadFile.open("D:/senior2/csc3002/mota/motaGroup/InfoBeforeMiniGame.dat", ios::in);
+    loadFile.open("InfoBeforeMiniGame.dat", ios::in);
+
 
     int new_heroHp;
     int new_heroAtk;
@@ -398,7 +410,8 @@ void Game::endMiniGame()
     scene->clear();
 
     // draw the map
-    maps = new Map("D:/senior2/csc3002/mota/motaGroup/MapBeforeMiniGame.dat");
+
+    maps = new Map(":maps/MapBeforeMiniGame.dat");
     maps->show(new_heroFloor);  // Initial Render
 
     // draw the hero

@@ -12,13 +12,14 @@ class monsterInfo: public QObject
 public:
     // constructor
     monsterInfo();
-
+    std::map<Button*, int> buttonMap;
     // public methods
     void showFrame();
     void findMonster();
     bool checkRepeated(int monsterID);
 public slots:
     void back();
+    void buttonChosen();
 
 private:
     QQueue<int> monsterID;
@@ -27,6 +28,7 @@ private:
     QQueue<QGraphicsPixmapItem*> monsterImage;
     QGraphicsRectItem* monsterFrame;
     Button* backButton;
+    ChoiceRect* choiceRect;
 
 };
 
