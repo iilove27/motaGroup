@@ -224,8 +224,9 @@ void SaveLoad::showLoadRecord()
     buttonMap.insert(std::pair<Button*, int> (backButton, 5));
 
 
-    choiceRect = new ChoiceRect(200, 40, 6, false, nullptr, 0, 50);
-    choiceRect->setPos(hxPos1, hyPos1);
+    choiceRect = new ChoiceRect(200, 40, 6, false, nullptr, 0, 50,false, false, true);
+    choiceRect->setPos(bxPos, byPos);
+    choiceRect->setCurrentChoice(5);
     connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
     game->scene->addItem(choiceRect);
     choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
