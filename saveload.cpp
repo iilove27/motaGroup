@@ -9,6 +9,8 @@
 #include "Msgboard.h"
 #include <fstream>
 #include <iostream>
+#include <QString>
+
 
 extern Game * game;
 
@@ -54,8 +56,10 @@ void SaveLoad::showSaveRecord()
     signalMapper1->setMapping(recordButton1, 1);
     connect(recordButton1, SIGNAL(clicked()), signalMapper1, SLOT(map()));
     connect(signalMapper1, SIGNAL(mapped(int)), this, SLOT(save(int)));
+
     game->scene->addItem(recordButton1);
     buttonMap.insert(std::pair<Button*, int> (recordButton1, 0));
+
 
     // draw record2 button
     recordButton2 = new Button(QString("Record 2"), 200, 40);
@@ -66,6 +70,7 @@ void SaveLoad::showSaveRecord()
     signalMapper2->setMapping(recordButton2, 2);
     connect(recordButton2, SIGNAL(clicked()), signalMapper2, SLOT(map()));
     connect(signalMapper2, SIGNAL(mapped(int)), this, SLOT(save(int)));
+
     game->scene->addItem(recordButton2);
     buttonMap.insert(std::pair<Button*, int> (recordButton2, 1));
 
@@ -79,6 +84,7 @@ void SaveLoad::showSaveRecord()
     signalMapper3->setMapping(recordButton3, 3);
     connect(recordButton3, SIGNAL(clicked()), signalMapper3, SLOT(map()));
     connect(signalMapper3, SIGNAL(mapped(int)), this, SLOT(save(int)));
+
     game->scene->addItem(recordButton3);
     buttonMap.insert(std::pair<Button*, int> (recordButton3, 2));
 
@@ -92,6 +98,7 @@ void SaveLoad::showSaveRecord()
     signalMapper4->setMapping(recordButton4, 4);
     connect(recordButton4, SIGNAL(clicked()), signalMapper4, SLOT(map()));
     connect(signalMapper4, SIGNAL(mapped(int)), this, SLOT(save(int)));
+
     game->scene->addItem(recordButton4);
     buttonMap.insert(std::pair<Button*, int> (recordButton4, 3));
 
@@ -105,6 +112,7 @@ void SaveLoad::showSaveRecord()
     signalMapper5->setMapping(recordButton5, 5);
     connect(recordButton5, SIGNAL(clicked()), signalMapper5, SLOT(map()));
     connect(signalMapper5, SIGNAL(mapped(int)), this, SLOT(save(int)));
+
     game->scene->addItem(recordButton5);
     buttonMap.insert(std::pair<Button*, int> (recordButton5, 4));
 
@@ -251,6 +259,7 @@ void SaveLoad::showLoadRecordOnMainMenu()
     buttonMap.insert(std::pair<Button*, int> (recordButton1, 0));
 
 
+
     // draw record2 button
     recordButton2 = new Button(QString("Record 2"), 200, 40);
     double hxPos2 = game->width()/2 - recordText->boundingRect().width()/2;
@@ -309,15 +318,16 @@ void SaveLoad::showLoadRecordOnMainMenu()
     backButton->setPos(bxPos, byPos);
     connect(backButton, SIGNAL(clicked()), this, SLOT(backMainMenu()));
     game->scene->addItem(backButton);
+
     buttonMap.insert(std::pair<Button*, int> (backButton, 5));
 
-    choiceRect = new ChoiceRect(200, 40, 6, false, nullptr, 0, 50);
-    choiceRect->setPos(hxPos1, hyPos1);
+    choiceRect = new ChoiceRect(200, 40, 6, false, nullptr, 0, 50, false, false, true);
+    choiceRect->setPos(bxPos, byPos);
+    choiceRect->setCurrentChoice(5);
     connect(choiceRect, SIGNAL(spacePressed()), this, SLOT(buttonChosen()));
     game->scene->addItem(choiceRect);
     choiceRect->setFlag(QGraphicsItem::ItemIsFocusable);
     choiceRect->setFocus();
-
 }
 
 /*
@@ -332,28 +342,31 @@ void SaveLoad::save(int recordNum)
     QString showText = "Save successfully";
     string fileInfoName;
     string fileMapName;
+    QString fileScreenShotPath;
 
     //  TO DO: use relative path
     switch (recordNum)
     {
     case 1: fileInfoName = "InfoRecord1.dat";
             fileMapName = "MapRecord1.dat";
+            fileScreenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot1.png";
             break;
     case 2: fileInfoName = "InfoRecord2.dat";
             fileMapName = "MapRecord2.dat";
+            fileScreenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot2.png";
             break;
     case 3: fileInfoName = "InfoRecord3.dat";
             fileMapName = "MapRecord3.dat";
+            fileScreenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot3.png";
             break;
     case 4: fileInfoName = "InfoRecord4.dat";
             fileMapName = "MapRecord4.dat";
+            fileScreenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot4.png";
             break;
     case 5: fileInfoName = "InfoRecord5.dat";
             fileMapName = "MapRecord5.dat";
-
-
+            fileScreenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot5.png";
             break;
-
     }
 
     fstream  saveFile;
@@ -375,12 +388,27 @@ void SaveLoad::save(int recordNum)
     saveFile<< game->hero->getBlueKey()<<endl;
     saveFile.close();
 
+    if (QFileInfo(fileScreenShotPath).exists()){
+        QFile screenShotFile(fileScreenShotPath);
+        screenShotFile.remove();
+        QFile tempFile("/Users/chenxuanyu212/CPPcode/motaGroup/temp.png");
+        qDebug()<<"gai ming zi qian "<<endl;
+        tempFile.rename(fileScreenShotPath);
+    }
+    else {
+        QFile tempFile("/Users/chenxuanyu212/CPPcode/motaGroup/temp.png");
+        qDebug()<<"mei you tu, rename temp "<<endl;
+        qDebug()<<fileScreenShotPath<<endl;
+        tempFile.rename(fileScreenShotPath);
+    }
+
 //    MsgBoard * msg = new MsgBoard(showText, 100, 100, 440, 150);
 //    game->scene->addItem(msg);
-
-    // 能不能不要这个message board啊，用别的方式告诉用户储存成功了？比如改那个button的text
+// 能不能不要这个message board啊，用别的方式告诉用户储存成功了？比如改那个button的text
 
     this->choiceRect->setFocus();
+
+
 }
 
 void SaveLoad::load(int recordNum)
@@ -391,6 +419,7 @@ void SaveLoad::load(int recordNum)
     //  TO DO: use relative path，我寻思没问题啊？？？
     switch (recordNum)
     {
+
     case 1: fileInfoName = "InfoRecord1.dat";
             fileMapName = "MapRecord1.dat";
             break;
@@ -405,8 +434,26 @@ void SaveLoad::load(int recordNum)
             break;
     case 5: fileInfoName = "InfoRecord5.dat";
             fileMapName = "MapRecord5.dat";
-
             break;
+
+/*
+    case 1: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord1.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4/MapRecord1.dat";
+            break;
+    case 2: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord2.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord2.dat";
+            break;
+    case 3: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord3.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord3.dat";
+            break;
+    case 4: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord4.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord4.dat";
+            break;
+    case 5: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord5.dat";
+            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord5.dat";
+>>>>>>> chenxuanyuniubi
+            break;
+     */
     }
 
     // order: hp,atk,def,lv,money,exp,floor,posX,poxY,redkey,yellowkey,bluekey

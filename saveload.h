@@ -13,6 +13,9 @@
 #include "Button.h"
 #include "Hero.h"
 #include "Game.h"
+#include "recordbutton.h"
+#include <QFile>
+#include <QFileInfo>
 
 extern Game * game;
 
@@ -35,8 +38,12 @@ private:
     // private variables
     QGraphicsRectItem *recordFrame;
     QGraphicsTextItem *recordText;
-    Button *recordButton1, *recordButton2, *recordButton3, *recordButton4, *recordButton5, *backButton;
     ChoiceRect* choiceRect;
+
+    //Button *saveButton1, *saveButton2, *saveButton3, *saveButton4, *saveButton5, *backButton;
+    //RecordButton *recordButton1, *recordButton2, *recordButton3, *recordButton4, *recordButton5;
+    Button *recordButton1, *recordButton2, *recordButton3, *recordButton4, *recordButton5,*backButton;
+
 };
 
 #endif // SAVELOAD_H

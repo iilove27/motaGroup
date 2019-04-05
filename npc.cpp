@@ -17,6 +17,7 @@ NPC::NPC(int npcID, QGraphicsItem *parent): QGraphicsPixmapItem (parent)
     {
         case 101: name = "xiannv"; break;
         case 102: name = "business"; break;
+        case 103: name = "flygame man"; break;
     }
 }
 

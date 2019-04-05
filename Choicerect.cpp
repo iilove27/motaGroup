@@ -1,11 +1,14 @@
 #include "Choicerect.h"
 #include <QKeyEvent>
 #include <iostream>
+#include "Game.h"
+#include <QDebug>
 
-
+extern Game* game;
 ChoiceRect::ChoiceRect(int sizeX, int sizeY, int numOfChoice, bool horizontalChoice, QGraphicsItem *parent,
-                       int gapX, int gapY, bool isBattle, bool isbackpack): QGraphicsRectItem (parent)
+                       int gapX, int gapY, bool isBattle, bool isbackpack, bool recordChoice): QGraphicsRectItem (parent)
 {
+    privaterecordChoice = recordChoice;
     canMove = true;
     privateisbackpack = isbackpack;
     privategapX = gapX;
@@ -119,15 +122,128 @@ void ChoiceRect::keyPressEvent(QKeyEvent *event)
             }
 
             else {
-                if ((event->key() == Qt::Key_Up) && (currentChoice != 0)) {
-                    this->setPos(this->x(), this->y()-privategapY);
-                    currentChoice--;
+
+                if (privaterecordChoice){
+
+                    /*
+                    if (currentChoice == 0){
+                        qDebug()<<"thi is a record button 0"<<endl;
+                        QString screenShotPath;
+                        screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot1.png";
+                        if (QFileInfo(screenShotPath).exists()==false){
+                            screenShotPath="/Users/chenxuanyu212/CPPcode/motaGroup/far.png";
+                        }
+                        QImage image(screenShotPath);
+
+                        yulan = new QGraphicsPixmapItem(QPixmap::fromImage(image.scaled(60,60,Qt::KeepAspectRatioByExpanding)));
+                        game->scene->addItem(yulan);
+
+                        if (event->key() == Qt::Key_Down){
+
+                            screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot2.png";
+                            if (QFileInfo(screenShotPath).exists()==false){
+                                qDebug()<<"mei cun tu"<<endl;
+                                screenShotPath="/Users/chenxuanyu212/CPPcode/motaGroup/far.jpg";
+                            }
+
+                            QImage image(screenShotPath);
+                            yulan = new QGraphicsPixmapItem(QPixmap::fromImage(image.scaled(60,60,Qt::KeepAspectRatioByExpanding)));
+                            game->scene->addItem(yulan);
+
+                            this->setPos(this->x(), this->y()+privategapY);
+                            currentChoice++;
+                        }
+                    }
+                    */
+                    if ((event->key() == Qt::Key_Up) && (currentChoice != 0)) {
+                        QString screenShotPath;
+                        switch(currentChoice){
+                        case 1: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot1.png";
+                                break;
+                        case 2: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot2.png";
+                                break;
+                        case 3: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot3.png";
+                                break;
+                        case 4: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot4.png";
+                                break;
+                        case 5: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot5.png";
+                                break;
+                        }
+                        qDebug()<<"thi is a record button"<<currentChoice+1<<endl;
+                        if (QFileInfo(screenShotPath).exists()==false){
+                            qDebug()<<"mei cun tu"<<endl;
+                            screenShotPath=":/images/far.jpg";
+                        }
+
+                        QImage image(screenShotPath);
+                        if (yulanExist) {
+                            game->scene->removeItem(yulan);
+                            yulanExist = false;
+                        }
+
+                        yulan = new QGraphicsPixmapItem(QPixmap::fromImage(image.scaled(120,120,Qt::KeepAspectRatioByExpanding)));
+                        game->scene->addItem(yulan);
+                        yulanExist = true;
+
+                        this->setPos(this->x(), this->y()-privategapY);
+                        currentChoice--;
+                    }
+                    else if ((event->key() == Qt::Key_Down) && (currentChoice != 5)) {
+                        QString screenShotPath;
+                        switch(currentChoice){
+                        case 0: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot2.png";
+                                break;
+                        case 1: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot3.png";
+                                break;
+                        case 2: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot4.png";
+                                break;
+                        case 3: screenShotPath = "/Users/chenxuanyu212/CPPcode/motaGroup/screenshot5.png";
+                                break;
+                        case 4: screenShotPath = "Back button";
+                                break;
+                        }
+                        qDebug()<<"thi is a record button"<<currentChoice+1<<endl;
+
+                        if (screenShotPath == "Back button"){
+                            game->scene->removeItem(yulan);
+                            yulanExist = false;
+                            this->setPos(this->x(), this->y()+privategapY);
+                            currentChoice++;
+                        }
+                        else {
+                            if (QFileInfo(screenShotPath).exists()==false){
+                                qDebug()<<"mei cun tu"<<endl;
+                                screenShotPath=":/images/far.jpg";
+                            }
+
+                            QImage image(screenShotPath);
+                            if (yulanExist) {
+                                game->scene->removeItem(yulan);
+                                yulanExist = false;
+                            }
+                            yulan = new QGraphicsPixmapItem(QPixmap::fromImage(image.scaled(120,120,Qt::KeepAspectRatioByExpanding)));
+
+                            game->scene->addItem(yulan);
+                            yulanExist = true;
+                            this->setPos(this->x(), this->y()+privategapY);
+                            currentChoice++;
+                        }
+                    }
+                }
+                else {
+                    if ((event->key() == Qt::Key_Up) && (currentChoice != 0)) {
+
+                        this->setPos(this->x(), this->y()-privategapY);
+                        currentChoice--;
+                    }
+
+                    if ((event->key() == Qt::Key_Down) && (currentChoice != numChoice-1)) {
+                        this->setPos(this->x(), this->y()+privategapY);
+                        currentChoice++;
+                    }
                 }
 
-                if ((event->key() == Qt::Key_Down) && (currentChoice != numChoice-1)) {
-                    this->setPos(this->x(), this->y()+privategapY);
-                    currentChoice++;
-                }
+
             }
 
         }
