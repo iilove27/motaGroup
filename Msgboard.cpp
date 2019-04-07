@@ -47,10 +47,3 @@ void MsgBoard::deleteAndFocusBack()
     // focus back
     game->hero->setFocusToSelf();
 }
-
-void MsgBoard::justDelete()
-{
-    // delete
-    game->scene->removeItem(this);
-    delete this;
-}

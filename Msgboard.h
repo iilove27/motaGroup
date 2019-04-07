@@ -22,7 +22,6 @@ public:
     MsgBoard(QString text, int x, int y, int width, int height, QGraphicsItem* parent=nullptr);
 public slots:
     void deleteAndFocusBack();
-    void justDelete();
 
 private:
     // private variable
