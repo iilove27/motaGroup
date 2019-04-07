@@ -390,16 +390,17 @@ void SaveLoad::save(int recordNum)
     saveFile.close();
 
     if (QFileInfo(fileScreenShotPath).exists()){
+        qDebug()<<"you temp tu le !!"<<endl;
         QFile screenShotFile(fileScreenShotPath);
         screenShotFile.remove();
         QFile tempFile("/Users/chenxuanyu212/CPPcode/motaGroup/temp.png");
-        qDebug()<<"gai ming zi qian "<<endl;
         tempFile.rename(fileScreenShotPath);
     }
     else {
         QFile tempFile("/Users/chenxuanyu212/CPPcode/motaGroup/temp.png");
         qDebug()<<"mei you tu, rename temp "<<endl;
         qDebug()<<fileScreenShotPath<<endl;
+
         tempFile.rename(fileScreenShotPath);
     }
 
@@ -436,94 +437,91 @@ void SaveLoad::load(int recordNum)
     case 5: fileInfoName = "InfoRecord5.dat";
             fileMapName = "MapRecord5.dat";
             break;
-
-/*
-    case 1: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord1.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup4/MapRecord1.dat";
-            break;
-    case 2: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord2.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord2.dat";
-            break;
-    case 3: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord3.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord3.dat";
-            break;
-    case 4: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord4.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord4.dat";
-            break;
-    case 5: fileInfoName = "/Users/chenxuanyu212/CPPcode/motaGroup/InfoRecord5.dat";
-            fileMapName = "/Users/chenxuanyu212/CPPcode/motaGroup/MapRecord5.dat";
->>>>>>> chenxuanyuniubi
-            break;
-     */
     }
 
-    // order: hp,atk,def,lv,money,exp,floor,posX,poxY,redkey,yellowkey,bluekey
-    loadFile.open(fileInfoName, ios::in);
+    /* If these infoFile and mapFile do not exist (people dont save the records previously)
+       we just give a message which shows "no existing records" */
 
-    int new_heroHp;
-    int new_heroAtk;
-    int new_heroDef;
-    int new_heroLv;
-    int new_heroMoney;
-    int new_heroExp;
-    int new_heroFloor;
-    int new_heroPosX;
-    int new_heroPosY;
-    int new_redKey;
-    int new_yellowKey;
-    int new_blueKey;
+    // since QFileInfo's input has to be QString, we convert the string to QString
+    QString infoFileName_QString = QString::fromUtf8(fileInfoName.c_str());
+    QString mapFileName_QString = QString::fromUtf8(fileMapName.c_str());
 
-    loadFile>>new_heroHp;
-    loadFile>>new_heroAtk;
-    loadFile>>new_heroDef;
-    loadFile>>new_heroLv;
-    loadFile>>new_heroMoney;
-    loadFile>>new_heroExp;
-    loadFile>>new_heroFloor;
-    loadFile>>new_heroPosX;
-    loadFile>>new_heroPosY;
-    loadFile>>new_redKey;
-    loadFile>>new_yellowKey;
-    loadFile>>new_blueKey;
-    loadFile.close();
+    QFileInfo InfoFile(infoFileName_QString);
+    QFileInfo MapFile(mapFileName_QString);
 
-    // clear
-    game->scene->clear();
+    if (InfoFile.exists() == false && MapFile.exists() == false){
+        // just no information
+    }
+    else {
+        // order: hp,atk,def,lv,money,exp,floor,posX,poxY,redkey,yellowkey,bluekey
+        loadFile.open(fileInfoName, ios::in);
 
-    // draw the map
-    QString qstr = QString::fromStdString(fileMapName);
-    game->maps = new Map(qstr);
-    game->maps->show(new_heroFloor);  // Initial Render
+        int new_heroHp;
+        int new_heroAtk;
+        int new_heroDef;
+        int new_heroLv;
+        int new_heroMoney;
+        int new_heroExp;
+        int new_heroFloor;
+        int new_heroPosX;
+        int new_heroPosY;
+        int new_redKey;
+        int new_yellowKey;
+        int new_blueKey;
 
-    // draw the hero
-    game->hero = new Hero();
-    game->hero->setPos(100+40*new_heroPosX, 40*new_heroPosY); // Initial Position
-    game->hero->show();
-    game->scene->addItem(game->hero);
-    game->hero->setFlag(QGraphicsItem::ItemIsFocusable);
+        loadFile>>new_heroHp;
+        loadFile>>new_heroAtk;
+        loadFile>>new_heroDef;
+        loadFile>>new_heroLv;
+        loadFile>>new_heroMoney;
+        loadFile>>new_heroExp;
+        loadFile>>new_heroFloor;
+        loadFile>>new_heroPosX;
+        loadFile>>new_heroPosY;
+        loadFile>>new_redKey;
+        loadFile>>new_yellowKey;
+        loadFile>>new_blueKey;
+        loadFile.close();
 
-    game->hero->setHp(new_heroHp);
-    game->hero->setAtk(new_heroAtk);
-    game->hero->setDef(new_heroDef);
-    game->hero->setLv(new_heroLv);
-    game->hero->setMoney(new_heroMoney);
-    game->hero->setExperience(new_heroExp);
-    game->hero->setFloor(new_heroFloor);
-    game->hero->setRedKey(new_redKey);
-    game->hero->setBlueKey(new_blueKey);
-    game->hero->setYellowKey(new_yellowKey);
+        // clear
+        game->scene->clear();
 
-    // draw the information
-    game->drawGUI();
+        // draw the map
+        QString qstr = QString::fromStdString(fileMapName);
+        game->maps = new Map(qstr);
+        game->maps->show(new_heroFloor);  // Initial Render
 
-    // add BGM
-    // TO DO: use Button to control BGM
-    QMediaPlayer * music = new QMediaPlayer();
-    music->setMedia(QUrl("qrc:/sounds/bgm.mp3"));
-    music->play();
+        // draw the hero
+        game->hero = new Hero();
+        game->hero->setPos(100+40*new_heroPosX, 40*new_heroPosY); // Initial Position
+        game->hero->show();
+        game->scene->addItem(game->hero);
+        game->hero->setFlag(QGraphicsItem::ItemIsFocusable);
 
-    game->hero->setFocus();
-    game->show();
+        game->hero->setHp(new_heroHp);
+        game->hero->setAtk(new_heroAtk);
+        game->hero->setDef(new_heroDef);
+        game->hero->setLv(new_heroLv);
+        game->hero->setMoney(new_heroMoney);
+        game->hero->setExperience(new_heroExp);
+        game->hero->setFloor(new_heroFloor);
+        game->hero->setRedKey(new_redKey);
+        game->hero->setBlueKey(new_blueKey);
+        game->hero->setYellowKey(new_yellowKey);
+
+        // draw the information
+        game->drawGUI();
+
+        // add BGM
+        // TO DO: use Button to control BGM
+        QMediaPlayer * music = new QMediaPlayer();
+        music->setMedia(QUrl("qrc:/sounds/bgm.mp3"));
+        music->play();
+
+        game->hero->setFocus();
+        game->show();
+    }
+
 }
 
 /*
@@ -578,4 +576,10 @@ void SaveLoad::buttonChosen()
             it->first->chosen();
         }
     }
+}
+
+void SaveLoad::deleteMsgAndText()
+{
+    game->scene->removeItem(msg);
+    game->scene->removeItem(text);
 }

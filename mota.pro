@@ -50,8 +50,7 @@ SOURCES += \
     bullet.cpp \
     enemybullet.cpp \
     player.cpp \
-    npcflygame.cpp \
-    recordbutton.cpp
+    npcflygame.cpp
 
 
 HEADERS += \
@@ -78,8 +77,7 @@ HEADERS += \
     bullet.h \
     enemybullet.h \
     player.h \
-    npcflygame.h \
-    recordbutton.h
+    npcflygame.h
 
 
 FORMS += \

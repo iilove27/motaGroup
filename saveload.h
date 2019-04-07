@@ -13,9 +13,10 @@
 #include "Button.h"
 #include "Hero.h"
 #include "Game.h"
-#include "recordbutton.h"
 #include <QFile>
 #include <QFileInfo>
+#include <QString>
+
 
 extern Game * game;
 
@@ -34,14 +35,12 @@ public slots:
     void back();
     void backMainMenu();
     void buttonChosen();
+    void deleteMsgAndText();
 private:
     // private variables
-    QGraphicsRectItem *recordFrame;
-    QGraphicsTextItem *recordText;
+    QGraphicsRectItem *recordFrame,*msg;
+    QGraphicsTextItem *recordText,*text;
     ChoiceRect* choiceRect;
-
-    //Button *saveButton1, *saveButton2, *saveButton3, *saveButton4, *saveButton5, *backButton;
-    //RecordButton *recordButton1, *recordButton2, *recordButton3, *recordButton4, *recordButton5;
     Button *recordButton1, *recordButton2, *recordButton3, *recordButton4, *recordButton5,*backButton;
 
 };

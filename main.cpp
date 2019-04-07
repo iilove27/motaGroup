@@ -7,6 +7,7 @@
 #include <QMediaPlayer>
 #include <Game.h>
 
+
 Game* game;
 
 int main(int argc, char *argv[])
